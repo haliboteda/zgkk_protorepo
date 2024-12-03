@@ -167,7 +167,7 @@ message Terminal {
   string code = 4;
   string type = 9;
   string sensors = 5;//json格式 sensor列表 { 名称/量程name: 300, 传感器种类type: , 传感器编号code:}
-  //string mac_addr = 6;
+  string mac_addr = 6;
   int32 is_active = 7;
   int64 create_time = 8;
   //
