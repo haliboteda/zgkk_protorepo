@@ -216,10 +216,10 @@ message Report {
   string user_contact = 20;
   string user_phone = 21;
   string user_name = 22;
-  string device_code = 12;
-  string device_name = 13;
-  string position = 14;
-  string exec_std = 15;
+  string device_code = 12;//设备代码
+  string device_name = 13;//装置名称
+  string position = 14;//安装位置
+  string exec_std = 15;//执行标准
   Valve v = 10;//阀门型号信息
   Record r = 16;//测量相关数据
   string terminal_code = 26;//仪器编号
@@ -266,26 +266,27 @@ message CreateReportResponse {
 message Valve {
   int32 id = 1;
   string code = 22;//阀门编号
-  string p_license = 2;
-  string kind = 3;
-  string type = 4;
-  string product_date = 5;
-  string oem_name = 6;
-  string DN = 7;
-  string base_rd = 8;
-  string PS = 9;
-  string sealed_area = 10;
-  string sealed_rd = 11;
-  string norminal_p = 12;
-  string sealed_rd_o = 13;
-  string sealed_rd_i = 14;
-  string flow_dia = 15;
-  string sterm_size = 16;
-  string sterm_height = 17;
+  string p_license = 2;//许可证编号
+  string kind = 3;//阀门类型(安全阀：弹簧式、先导式、重锤式) 旧名valveType
+  string type = 4;//阀门型号 旧名valveTypeNo
+  string product_date = 5;//出厂日期
+  string oem_name = 6;//制造单位
+  string DN = 7;//公称通径
+  string base_rd = 8;//阀座口径
+  string PS = 9;//阀门的整定压力 即要求整定压力
+  string sealed_area = 10;//密封面积
+  string sealed_rd = 11;//密封直径
+  string norminal_p = 12;//公称压力
+  string sealed_rd_o = 13;//密封外径
+  string sealed_rd_i = 14;//密封内径
+  string flow_dia = 15;//流道直径
+  string sterm_size = 16;//阀杆螺纹尺
+  string sterm_height = 17;//阀杆外露高
   int32 is_active = 18;
   int64 create_time = 19;
   int32 create_by = 20;
   int64 update_time = 21;
+  string singleC = 23;//单圈变量
 }
 
 message Record {
