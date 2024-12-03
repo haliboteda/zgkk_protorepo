@@ -44,6 +44,16 @@ message BaseResponse {
 message TestRequest { string code = 1; }
 message TestResponse { string code = 1; }
 //
+message SysUser {
+  int32 id = 1;
+  int32 department_id = 2;
+  int32 employee_id = 7;
+  string nick_name = 3;
+  string username = 4;
+  string password = 5;
+  int32 is_active = 6;
+}
+
 message Employee {
   enum EmployeeType {
     ET_Dummy = 0;
