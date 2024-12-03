@@ -1,0 +1,349 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package webbusinessd;
+
+service WebBusiness {
+
+  rpc Test(TestRequest) returns (TestResponse);//host/test/teset
+
+  rpc ListEmployee(ListEmployeeRequest) returns (ListEmployeeResponse);// host/list_employee
+  rpc CreateEmployee(CreateEmployeeRequest) returns (CreateEmployeeResponse);// host/create_employee
+  rpc UpdateEmployee(UpdateEmployeeRequest) returns (UpdateDepartmentResponse);// host/update_employee
+  rpc GetEmployee(GetEmployeeRequest) returns (GetEmployeeResponse);
+  //department
+  rpc ListDepartment(ListDepartmentRequest) returns (ListDepartmentResponse);// host/list_department
+  rpc CreateDepartment(CreateDepartmentRequest) returns (CreateDepartmentResponse);// host/create_department
+  rpc UpdateDepartment(UpdateDepartmentRequest) returns (UpdateDepartmentResponse);// host/update_department
+  rpc DeleteDepartment(DeleteDepartmentRequest) returns (DeleteDepartmentResponse);// host/delete_department
+  //terminal
+  rpc ListTerminal(ListTerminalRequest) returns (ListTerminalResponse);// host/list_terminal
+  rpc RegisterTerminal(RegisterTerminalRequest) returns (RegisterTerminalResponse);// host/register_terminal
+  rpc SendHeartBeat(SendHeartBeatRequest) returns (SendHeartBeatResponse);// host/send_heart_beat
+  //report
+  rpc GetReportDetail(GetReportDetailRequest) returns (GetReportDetailResponse);//host/get_report_detail
+  rpc FinishReport(FinishReportRequest) returns (FinishReportResponse);//host/finish_report
+  rpc CreateReport(CreateReportRequest) returns (CreateReportResponse);//host/create_report
+  //valve
+  rpc ListValve(ListValveRequest) returns (ListValveResponse);//host/list_valve
+  rpc CreateValve(CreateValveRequest) returns (CreateValveResponse);//host/create_valve
+}
+
+
+message EmptyMessage{}
+
+message BaseListArg {
+  bool count_only = 1;    // 是否纯计数
+  int32 start = 2;        // take [start, start+count]
+  int32 count = 3;
+}
+
+message BaseResponse {
+  int32 code = 1;
+  string msg = 2;
+}
+message TestRequest { string code = 1; }
+message TestResponse { string code = 1; }
+//
+message Employee {
+  enum EmployeeType {
+    ET_Dummy = 0;
+    ET_Admin = 1; //
+    ET_Tester = 2; // 校验员
+    ET_Checker = 3; // 校核员
+    ET_Approver = 4; // 审核员
+    ET_Normal = 5;// 普通
+  }
+  int32 id = 1;
+  int32 department_id = 2;
+  EmployeeType type = 3;
+  string name = 4;
+  string work_number = 5;
+  string avatar_url = 6;
+  int64 create_time = 7;
+  int32 create_by = 8;
+}
+
+message CreateEmployeeRequest {
+  Employee employee = 1;
+}
+
+message CreateEmployeeResponse {
+  BaseResponse rsp = 1;
+}
+
+message UpdateEmployeeRequest {
+  Employee employee = 1;
+}
+
+message UpdateEmployeeResponse {
+  BaseResponse rsp = 1;
+}
+
+message GetEmployeeRequest {
+  int32 id = 1;
+}
+
+message GetEmployeeResponse {
+  BaseResponse rsp = 1;
+  Employee employee = 2;
+}
+
+message ListEmployeeRequest {
+  BaseListArg list_arg = 1;
+  repeated int32 department_id = 2;
+  string name = 3;
+  int32 first_pos = 4;
+  int32 second_pos = 5;
+  string id_card = 8; // 身份证
+}
+
+message ListEmployeeResponse {
+  BaseResponse rsp = 1;
+  repeated Employee employee_list = 2;
+  int32 count = 3;
+}
+
+
+// 部门
+message Department {
+  int32 id = 1;
+  int32 parent_id = 2;
+  string name = 3;
+  int64 create_at = 4;
+}
+
+message CreateDepartmentRequest {
+  string name = 1;
+  int32 parent_id = 2;
+}
+
+message CreateDepartmentResponse {
+  BaseResponse rsp = 1;
+}
+
+message UpdateDepartmentRequest {
+  int32 id = 1;
+  int32 parent_id = 2;
+  string name = 3;
+}
+
+message UpdateDepartmentResponse {
+  BaseResponse rsp = 1;
+}
+
+message DeleteDepartmentRequest {
+  int32 id = 1;
+}
+
+message DeleteDepartmentResponse {
+  BaseResponse rsp = 1;
+}
+
+message ListDepartmentRequest {
+  int32 parent_id = 1;
+  BaseListArg list_arg = 2;
+}
+
+message ListDepartmentResponse {
+  BaseResponse rsp = 1;
+  repeated Department department_list = 2;
+  int32 count = 3;
+}
+//
+message Terminal {
+  int32 id = 1;
+  string name = 2;
+  int32 department_id = 3;
+  string code = 4;
+  string type = 9;
+  string sensors = 5;//json格式 sensor列表 { 名称/量程name: 300, 传感器种类type: , 传感器编号code:}
+  //string mac_addr = 6;
+  int32 is_active = 7;
+  int64 create_time = 8;
+  //
+  repeated int32 todo_report_ids = 15;
+}
+
+message UpdateTerminalRequest {
+  Terminal terminal = 1;
+}
+
+message UpdateTerminalResponse {
+  BaseResponse rsp = 1;
+}
+
+message RegisterTerminalRequest {
+  Terminal terminal = 1;
+}
+message RegisterTerminalResponse {
+  BaseResponse rsp = 1;
+  int32 terminal_id = 2;
+  string terminal_code = 3;
+}
+
+message SendHeartBeatRequest {
+  int32 terminal_id = 1;
+}
+message SendHeartBeatResponse {
+  BaseResponse rsp = 1;
+}
+
+message ListTerminalRequest{
+  BaseListArg list_arg = 1;
+  int32 department_id = 2;
+  int32 terminal_id = 3;
+}
+
+message ListTerminalResponse {
+  BaseResponse rsp = 1;
+  repeated Terminal terminal_list = 2;
+  int32 count = 3;
+}
+//report
+message Report {
+  enum ReportStatus {
+    RS_Dummy = 0;
+    RS_To_Check = 1;// 待校验
+    RS_To_Approval = 2;// 待审核
+    RS_Finished = 3;// 报告已出
+    RS_Invalid = 4;// 作废
+  }
+  int32 id = 1;
+  int32 department_id = 2;
+  ReportStatus status = 4;
+  string code = 3;
+  string user_addr = 19;
+  string user_contact = 20;
+  string user_phone = 21;
+  string user_name = 22;
+  string device_code = 12;
+  string device_name = 13;
+  string position = 14;
+  string exec_std = 15;
+  Valve v = 10;//阀门型号信息
+  Record r = 16;//测量相关数据
+  string terminal_code = 26;//仪器编号
+  string terminal_type = 27;//校验设备型号
+  string gauge_num = 28;//压力表编号
+  string press_from = 29;
+  string press_to = 30;
+  int32 num_format = 18;//数据精度
+  string file_path = 17;//报告存放路径
+  string result = 23;
+  int64 next_date = 24;
+  string valid_year = 25;
+  int32 tester_id = 7;
+  int32 checker_id = 8;
+  int32 approver_id = 9;
+  int64 create_time = 5;
+  int32 create_by = 6;
+}
+
+message GetReportDetailRequest {
+  int32 report_id = 1;
+  int32 department_id = 2;
+}
+message GetReportDetailResponse {
+  BaseResponse rsp = 1;
+  Report report = 2;
+}
+message FinishReportRequest {
+  Report report = 1;
+  int32 terminal_id = 2;
+}
+message FinishReportResponse {
+  BaseResponse rsp = 1;
+}
+message CreateReportRequest {
+  Report report = 1;
+  int32 terminal_id = 2;
+}
+message CreateReportResponse {
+  BaseResponse rsp = 1;
+  int32 report_id = 2;
+}
+// Valve
+message Valve {
+  int32 id = 1;
+  string code = 22;//阀门编号
+  string p_license = 2;
+  string kind = 3;
+  string type = 4;
+  string product_date = 5;
+  string oem_name = 6;
+  string DN = 7;
+  string base_rd = 8;
+  string PS = 9;
+  string sealed_area = 10;
+  string sealed_rd = 11;
+  string norminal_p = 12;
+  string sealed_rd_o = 13;
+  string sealed_rd_i = 14;
+  string flow_dia = 15;
+  string sterm_size = 16;
+  string sterm_height = 17;
+  int32 is_active = 18;
+  int64 create_time = 19;
+  int32 create_by = 20;
+  int64 update_time = 21;
+}
+
+message Record {
+  int32 id = 1;
+  string code = 2;
+  string type = 3;
+  string check_num = 4;
+  string seq_no = 5;
+  string medium = 6;//工作介质
+  string medium_check = 7;//校验介质
+  string temperature = 8;
+  string temperature_medium = 9;
+  string p0 = 10;
+  string ps = 11;
+  string sealed_p = 12;
+  string test_p = 13;
+  string err = 14;
+  string result = 15;
+  string outside_check = 16;
+  string dissemble_check = 17;
+  string maintenance = 18;
+  string ps1 = 19;
+  string ps2 = 20;
+  string ps3 = 21;
+  string lift1 = 22;
+  string lift2 = 23;
+  string lift3 = 24;
+  string dis_p1 = 25;
+  string dis_p2 = 26;
+  string dis_p3 = 27;
+  string reseat_p1 = 28;
+  string reseat_p2 = 29;
+  string reseat_p3 = 30;
+  string conclusion = 31;
+  string remarks = 32;
+  int64 create_time = 33;
+}
+
+message ListValveRequest {
+  BaseListArg list_arg = 1;
+  string dn = 2;
+  string ps_from = 3;
+  //int32 ps_to = 4;
+  string oem = 5;
+  string type = 6;
+}
+
+message ListValveResponse {
+  BaseResponse rsp = 1;
+  repeated Valve valve_list = 2;
+  int32 count = 3;
+}
+
+message CreateValveRequest {
+  Valve valve = 1;
+}
+
+message CreateValveResponse {
+  BaseResponse rsp = 1;
+  int32 id = 2;
+}
