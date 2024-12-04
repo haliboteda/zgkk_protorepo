@@ -196,9 +196,11 @@ message RegisterTerminalResponse {
 
 message SendHeartBeatRequest {
   int32 terminal_id = 1;
+  string department_code = 2;
 }
 message SendHeartBeatResponse {
   BaseResponse rsp = 1;
+  repeated string report_ids = 2;
 }
 
 message ListTerminalRequest{
