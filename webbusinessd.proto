@@ -119,6 +119,7 @@ message Department {
   int32 id = 1;
   int32 parent_id = 2;
   string name = 3;
+  string code = 5;
   int64 create_at = 4;
 }
 
@@ -152,6 +153,7 @@ message DeleteDepartmentResponse {
 message ListDepartmentRequest {
   int32 parent_id = 1;
   BaseListArg list_arg = 2;
+  string code = 3;
 }
 
 message ListDepartmentResponse {
@@ -184,6 +186,7 @@ message UpdateTerminalResponse {
 
 message RegisterTerminalRequest {
   Terminal terminal = 1;
+  string department_code = 2;
 }
 message RegisterTerminalResponse {
   BaseResponse rsp = 1;
@@ -251,7 +254,7 @@ message Report {
 
 message GetReportDetailRequest {
   int32 report_id = 1;
-  int32 department_id = 2;
+  string department_code = 2;
 }
 message GetReportDetailResponse {
   BaseResponse rsp = 1;
