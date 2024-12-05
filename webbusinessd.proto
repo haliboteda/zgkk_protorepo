@@ -281,6 +281,9 @@ message CreateReportResponse {
 // Valve
 message Valve {
   int32 id = 1;
+  string name = 24;//商品名称
+  string specification = 25;//规格
+  string material = 26;//材质
   string code = 22;//阀门编号
   string p_license = 2;//许可证编号
   string kind = 3;//阀门类型(安全阀：弹簧式、先导式、重锤式) 旧名valveType
