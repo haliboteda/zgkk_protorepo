@@ -192,6 +192,7 @@ message RegisterTerminalResponse {
   BaseResponse rsp = 1;
   int32 terminal_id = 2;
   string terminal_code = 3;
+  int32 department_id = 4;
 }
 
 message SendHeartBeatRequest {
