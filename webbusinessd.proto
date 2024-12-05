@@ -248,9 +248,9 @@ message Report {
   string result = 23;
   int64 next_date = 24;
   string valid_year = 25;
-  int32 tester_id = 7;
-  int32 checker_id = 8;
-  int32 approver_id = 9;
+  Employee tester = 7;
+  Employee checker = 8;
+  Employee approver = 9;
   int64 create_time = 5;
   int32 create_by = 6;
 }
