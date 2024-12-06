@@ -245,7 +245,6 @@ message Report {
   string press_to = 30;
   int32 num_format = 18;//数据精度
   string file_path = 17;//报告存放路径
-  string result = 23;
   int64 next_date = 24;
   string valid_year = 25;
   Employee tester = 7;
