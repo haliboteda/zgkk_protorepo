@@ -237,7 +237,7 @@ message Report {
   string position = 14;//安装位置
   string exec_std = 15;//执行标准
   Valve v = 10;//阀门型号信息
-  // Record r = 16;//测量相关数据
+  Record r = 16;//测量相关数据
   string terminal_code = 26;//仪器编号
   string terminal_type = 27;//校验设备型号
   string gauge_num = 28;//压力表编号
@@ -245,42 +245,9 @@ message Report {
   string press_to = 30;
   int32 num_format = 18;//数据精度
   string file_path = 17;//报告存放路径
+  string result = 23;
   int64 next_date = 24;
   string valid_year = 25;
-//
-  string rd_id = 101;
-  string rd_code = 102;
-  string type = 103;
-  string check_num = 104;
-  string seq_no = 105;
-  string medium = 106;//工作介质
-  string medium_check = 107;//校验介质
-  string temperature = 108;
-  string temperature_medium = 109;
-  string p0 = 110;
-  string ps = 111;
-  string sealed_p = 112;
-  string test_p = 113;
-  string err = 114;
-  string result = 115;
-  string outside_check = 116;
-  string dissemble_check = 117;
-  string maintenance = 118;
-  string ps1 = 119;
-  string ps2 = 120;
-  string ps3 = 121;
-  string lift1 = 122;
-  string lift2 = 123;
-  string lift3 = 124;
-  string dis_p1 = 125;
-  string dis_p2 = 126;
-  string dis_p3 = 127;
-  string reseat_p1 = 128;
-  string reseat_p2 = 129;
-  string reseat_p3 = 130;
-  string conclusion = 131;
-  string remarks = 132;
-//
   Employee tester = 7;
   Employee checker = 8;
   Employee approver = 9;
@@ -341,41 +308,41 @@ message Valve {
   string singleC = 23;//单圈变量
 }
 
-// message Record {
-//   int32 id = 1;
-//   string code = 2;
-//   string type = 3;
-//   string check_num = 4;
-//   string seq_no = 5;
-//   string medium = 6;//工作介质
-//   string medium_check = 7;//校验介质
-//   string temperature = 8;
-//   string temperature_medium = 9;
-//   string p0 = 10;
-//   string ps = 11;
-//   string sealed_p = 12;
-//   string test_p = 13;
-//   string err = 14;
-//   string result = 15;
-//   string outside_check = 16;
-//   string dissemble_check = 17;
-//   string maintenance = 18;
-//   string ps1 = 19;
-//   string ps2 = 20;
-//   string ps3 = 21;
-//   string lift1 = 22;
-//   string lift2 = 23;
-//   string lift3 = 24;
-//   string dis_p1 = 25;
-//   string dis_p2 = 26;
-//   string dis_p3 = 27;
-//   string reseat_p1 = 28;
-//   string reseat_p2 = 29;
-//   string reseat_p3 = 30;
-//   string conclusion = 31;
-//   string remarks = 32;
-//   int64 create_time = 33;
-// }
+message Record {
+  int32 id = 1;
+  string rd_code = 2;
+  string type = 3;
+  string check_num = 4;
+  string seq_no = 5;
+  string medium = 6;//工作介质
+  string medium_check = 7;//校验介质
+  string temperature = 8;
+  string temperature_medium = 9;
+  string p0 = 10;
+  string ps = 11;
+  string sealed_p = 12;
+  string test_p = 13;
+  string err = 14;
+  string result = 15;
+  string outside_check = 16;
+  string dissemble_check = 17;
+  string maintenance = 18;
+  string ps1 = 19;
+  string ps2 = 20;
+  string ps3 = 21;
+  string lift1 = 22;
+  string lift2 = 23;
+  string lift3 = 24;
+  string dis_p1 = 25;
+  string dis_p2 = 26;
+  string dis_p3 = 27;
+  string reseat_p1 = 28;
+  string reseat_p2 = 29;
+  string reseat_p3 = 30;
+  string conclusion = 31;
+  string remarks = 32;
+  int64 create_time = 33;
+}
 
 message ListValveRequest {
   BaseListArg list_arg = 1;
