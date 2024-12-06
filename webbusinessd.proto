@@ -248,6 +248,7 @@ message Report {
   int64 next_date = 24;
   string valid_year = 25;
 //
+  string rd_id = 101;
   string rd_code = 102;
   string type = 103;
   string check_num = 104;
