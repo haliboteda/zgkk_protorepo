@@ -311,7 +311,7 @@ message Record {
   int32 id = 1;
   string rd_code = 2;
   string type = 3;
-  string check_num = 4;
+  //string check_num = 4;
   string seq_no = 5;
   string medium = 6;//工作介质
   string medium_check = 7;//校验介质
