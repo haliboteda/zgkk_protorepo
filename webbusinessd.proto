@@ -277,6 +277,23 @@ message CreateReportResponse {
   BaseResponse rsp = 1;
   int32 report_id = 2;
 }
+// ValveAdjt
+message ValveAdjt {
+  enum SELFLAG { 
+    VA_NONE = 0;
+    VA_SELF = 1;
+    VA_VALVE = 2 ;
+  }
+  string id = 1;
+  SELFLAG flag = 2;
+  string numFormat = 3;// default "#.###"
+  double Adjment_psit_d = 4;
+  double Adjment_negt_d = 5;
+  double Adjment_psit_s = 6;
+  double Adjment_negt_s = 7;
+  string Adjmenttime = 8;
+
+}
 // Valve
 message Valve {
   int32 id = 1;
@@ -305,6 +322,7 @@ message Valve {
   int32 create_by = 20;
   int64 update_time = 21;
   string singleC = 23;//单圈变量
+  ValveAdjt adjt = 30;
 }
 
 message Record {
