@@ -27,7 +27,7 @@ service WebBusiness {
   rpc ListValve(ListValveRequest) returns (ListValveResponse);//host/list_valve
   rpc CreateValve(CreateValveRequest) returns (CreateValveResponse);//host/create_valve
 
-  rpc UploadFile(EmptyMessage) returns (UploadFileResponse);//host/file/upload
+  rpc UploadFile(UploadFilelRequest) returns (UploadFileResponse);//host/file/upload
 }
 
 
@@ -387,6 +387,12 @@ message CreateValveRequest {
 message CreateValveResponse {
   BaseResponse rsp = 1;
   int32 id = 2;
+}
+
+message UploadFilelRequest {
+  int32 report_id = 1;
+  string department_code = 2;
+  string employee_work_num = 3;
 }
 
 message UploadFileResponse {
