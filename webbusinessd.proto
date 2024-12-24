@@ -268,7 +268,6 @@ message GetReportDetailResponse {
 }
 message FinishReportRequest {
   Report report = 1;
-  int32 terminal_id = 2;
   string department_code = 3;
 }
 message FinishReportResponse {
@@ -276,7 +275,6 @@ message FinishReportResponse {
 }
 message CreateReportRequest {
   Report report = 1;
-  int32 terminal_id = 2;
 }
 message CreateReportResponse {
   BaseResponse rsp = 1;
