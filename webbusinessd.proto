@@ -222,9 +222,10 @@ message Report {
   enum ReportStatus {
     RS_Dummy = 0;
     RS_To_Check = 1;// 待校验
-    RS_To_Approval = 2;// 待审核
-    RS_Finished = 3;// 报告已出
-    RS_Invalid = 4;// 作废
+    RS_Checking = 2;// 校验中
+    RS_To_Approval = 3;// 待审核
+    RS_Finished = 4;// 报告已出
+    RS_Invalid = 5;// 作废
   }
   int32 id = 1;
   int32 department_id = 2;
