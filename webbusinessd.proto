@@ -23,6 +23,7 @@ service WebBusiness {
   rpc GetReportDetail(GetReportDetailRequest) returns (GetReportDetailResponse);//host/get_report_detail
   rpc FinishReport(FinishReportRequest) returns (FinishReportResponse);//host/finish_report
   rpc CreateReport(CreateReportRequest) returns (CreateReportResponse);//host/create_report
+  rpc UpdateReport(UpdateReportRequest) returns (UpdateReportResponse);//host/update_report
   //valve
   rpc ListValve(ListValveRequest) returns (ListValveResponse);//host/list_valve
   rpc CreateValve(CreateValveRequest) returns (CreateValveResponse);//host/create_valve
@@ -279,6 +280,12 @@ message CreateReportRequest {
 message CreateReportResponse {
   BaseResponse rsp = 1;
   int32 report_id = 2;
+}
+message UpdateReportRequest {
+  Report report = 1;
+}
+message UpdateReportResponse {
+  BaseResponse rsp = 1;
 }
 // ValveAdjt
 message ValveAdjt {
