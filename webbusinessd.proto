@@ -229,6 +229,7 @@ message Report {
     RS_Invalid = 5;// 作废
   }
   int32 id = 1;
+  int32 local_id = 36;
   int32 department_id = 2;
   int32 terminal_id = 31;
   ReportStatus status = 4;
