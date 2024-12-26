@@ -257,7 +257,7 @@ message Report {
   Employee approver = 9;
   int64 create_time = 5;
   int32 create_by = 6;
-  int64 inspectin_date = 35;// 阀门校验日期
+  int64 inspection_date = 35;// 阀门校验日期
 }
 
 message GetReportDetailRequest {
