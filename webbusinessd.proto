@@ -342,6 +342,7 @@ message Record {
   string rd_code = 2;
   string file_path = 40;//测量记录文件路径
   string result_path = 41;//测量结果文件路径
+  int32 report_id = 42;
   string type = 3;
   //string check_num = 4;
   string seq_no = 5;
