@@ -264,7 +264,7 @@ message Report {
 message GetReportDetailRequest {
   int32 report_id = 1;
   string report_code = 3;
-  string rpt_code = 2;
+  string department_code = 2;
 }
 message GetReportDetailResponse {
   BaseResponse rsp = 1;
