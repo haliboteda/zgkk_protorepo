@@ -58,6 +58,10 @@ message SysUser {
   int32 is_active = 6;
 }
 
+enum RespCode{
+  SUCC = 0;
+  FAIL = 1;
+}
 // 每个Role拥有的具体权限写死在代码里
 enum SysRole {
   Dummy = 0;
