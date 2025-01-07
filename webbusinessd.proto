@@ -4,6 +4,10 @@ package webbusinessd;
 
 service WebBusiness {
 
+  rpc Login(LoginRequest) returns (LoginResponse);  // host/sys/login
+  rpc Logout(LogoutRequest) returns (LogoutResponse);// host/sys/logout
+  rpc UpdatePwd(UpdatePwdRequest) returns (UpdatePwdResponse);// host/sys/updatepwd
+
   rpc Test(TestRequest) returns (TestResponse);//host/test/teset
 
   rpc ListEmployee(ListEmployeeRequest) returns (ListEmployeeResponse);// host/list_employee
@@ -56,6 +60,34 @@ message SysUser {
   string username = 4;
   string password = 5;
   int32 is_active = 6;
+}
+
+
+// system
+message LoginRequest {
+  string user_name = 1;
+  string enc_password = 2;
+}
+
+message LoginResponse {
+  BaseResponse rsp = 1;
+  string token = 2;
+}
+
+message LogoutRequest {
+}
+message LogoutResponse {
+  BaseResponse rsp = 1;
+}
+
+message UpdatePwdRequest {
+  string enc_password = 1;      // 旧密码
+  string new_enc_password = 2;  // 新密码
+  string renew_enc_password = 3;  // 确认密码
+}
+
+message UpdatePwdResponse {
+  BaseResponse rsp = 1;
 }
 
 enum RespCode{
