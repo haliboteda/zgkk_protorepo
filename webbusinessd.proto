@@ -18,6 +18,7 @@ service WebBusiness {
   //terminal
   rpc ListTerminal(ListTerminalRequest) returns (ListTerminalResponse);// host/list_terminal
   rpc RegisterTerminal(RegisterTerminalRequest) returns (RegisterTerminalResponse);// host/register_terminal
+  rpc AuthoriseTerminal(AuthoriseTerminalRequest) returns (AuthoriseTerminalResponse);// host/authorise_terminal
   rpc SendHeartBeat(SendHeartBeatRequest) returns (SendHeartBeatResponse);// host/send_heart_beat
   //report
   rpc GetReportDetail(GetReportDetailRequest) returns (GetReportDetailResponse);//host/get_report_detail
@@ -410,4 +411,15 @@ message UploadFileRequest {
 message UploadFileResponse {
   BaseResponse rsp = 1;
   string file_path = 2;
+}
+
+message AuthoriseTerminalRequest {
+  int32 user_id = 1;// 设备使用人
+
+}
+
+message AuthoriseTerminalResponse {
+  BaseResponse rsp = 1;
+  string token = 2;
+  
 }
