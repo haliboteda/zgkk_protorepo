@@ -425,8 +425,8 @@ message UploadFileResponse {
 }
 
 message AuthoriseTerminalRequest {
-  int32 user_id = 1;// 设备使用人
-
+  string terminal_name = 1;// 
+  string terminal_type = 2;// 
 }
 
 message AuthoriseTerminalResponse {
