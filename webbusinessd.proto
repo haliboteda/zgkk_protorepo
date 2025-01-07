@@ -58,6 +58,17 @@ message SysUser {
   int32 is_active = 6;
 }
 
+// 每个Role拥有的具体权限写死在代码里
+enum SysRole {
+  Dummy = 0;
+  Admin = 1;    // 1、管理人员 RW
+  DepartmentAdmin = 2; // 2、部门管理员 RW
+  Tester = 3; // 3、校验员 RW
+  Checker = 4; // 4、审查员 RW
+  Approver = 5; // 5、审核员 RW
+  Staff = 6; // 普通员工
+}
+
 message Employee {
   enum EmployeeType {
     ET_Dummy = 0;
