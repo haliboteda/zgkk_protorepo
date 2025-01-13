@@ -469,5 +469,5 @@ message AuthoriseTerminalRequest {
 message AuthoriseTerminalResponse {
   BaseResponse rsp = 1;
   string token = 2;
-  
+  string code = 3;
 }
