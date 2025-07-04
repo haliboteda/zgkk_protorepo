@@ -440,13 +440,13 @@ message Record_Safety {
   string rlt3 = 38;        // 传感器 3 的试验结论
   SealedType sealedType = 39; // 密封测试类型: 气泡 保压
   double b_ps = 40;  // 密封测试时压力
-  int b_t_i = 41;// 密封测试标准时间 秒
-  int b_t = 42;// 密封测试时间 秒
+  int32 b_t_i = 41;// 密封测试标准时间 秒
+  int32 b_t = 42;// 密封测试时间 秒
   double r_v_ = 43;//密封泄露量 标准值
   double r_v = 44;//密封泄露量 实际值
   string rlt_b = 45;//密封测试结论
-  int bubble_num_input = 46; // 气泡标准个数
-  int bubble_num = 47; // 气泡个数
+  int32 bubble_num_input = 46; // 气泡标准个数
+  int32 bubble_num = 47; // 气泡个数
   double p1 = 48;         // 密封测试时开始压力
   double p2 = 49;         // 密封测试时结束压力
   string pic = 50;        // 测量截图路径
