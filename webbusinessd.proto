@@ -445,7 +445,7 @@ message Record_Safety {
   double b_ps = 40;  // 密封测试时压力
   int32 b_t_i = 41;// 密封测试标准时间 秒
   int32 b_t = 42;// 密封测试时间 秒
-  double r_v_ = 43;//密封泄露量 标准值
+  double r_v_i = 43;//密封泄露量 标准值
   double r_v = 44;//密封泄露量 实际值
   string rlt_b = 45;//密封测试结论
   int32 bubble_num_input = 46; // 气泡标准个数
