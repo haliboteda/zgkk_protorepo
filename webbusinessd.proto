@@ -293,7 +293,7 @@ message Report {
   string device_name = 13;  //装置名称
   string position = 14;  //安装位置
   string exec_std = 15;  //执行标准
-  Record r = 17;  //测量相关数据
+
   //string terminal_code = 18;  //仪器编号
   //string terminal_type = 19;  //校验设备型号
   string gauge_num = 20;  //压力表编号
@@ -309,6 +309,9 @@ message Report {
   int64 create_time = 30;
   int32 create_by = 31;
   int64 inspection_date = 32;  // 阀门校验日期
+  //
+  Record_Safety r = 17;  //安全阀相关数据
+  Record_Breathe b = 18;  //呼吸阀相关数据
 }
 
 message GetReportDetailRequest {
@@ -471,12 +474,12 @@ message ListValveRequest {
 
 message ListValveResponse {
   BaseResponse rsp = 1;
-  repeated Valve valve_list = 2;
+  repeated Valve_safety valve_list = 2;
   int32 count = 3;
 }
 
 message CreateValveRequest {
-  Valve valve = 1;
+  Valve_safety valve = 1;
 }
 
 message CreateValveResponse {
