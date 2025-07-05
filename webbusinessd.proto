@@ -310,8 +310,8 @@ message Report {
   int32 create_by = 31;
   int64 inspection_date = 32;  // 阀门校验日期
   //
-  Record_Safety r = 17;  //安全阀相关数据
-  Record_Breathe b = 18;  //呼吸阀相关数据
+  Record_Safety r_s = 17;  //安全阀相关数据
+  Record_Breathe r_b = 18;  //呼吸阀相关数据
 }
 
 message GetReportDetailRequest {
@@ -361,7 +361,7 @@ message ValveAdjt {
 
 }
 // Valve
-message Valve_safety {
+message Valve {
   int32 id = 1;
   string name = 24;//商品名称
   string specification = 25;//规格
@@ -389,12 +389,11 @@ message Valve_safety {
   int64 update_time = 21;
   string singleC = 23;//单圈变量
   ValveAdjt adjt = 30;
+  // Breathe
+  string p_pos = 31;// 正压
+  string p_neg = 32;// 负压
 }
-message Valve_breathe {
-  int32 id = 1;
-  string name = 24;//商品名称
 
-}
 // 用于安全阀
 message Record_Safety {
   int32 id = 1;
@@ -428,7 +427,7 @@ message Record_Safety {
   string conclusion = 29;
   string remarks = 30;
   int64 create_time = 31;
-  Valve_safety v = 32;  //阀门型号信息
+  Valve v = 32;  //阀门型号信息
   string file_path = 33;  //测量记录文件路径
   string result_path = 34;  //测量结果文件路径
   //int32 report_id = 35;
@@ -459,7 +458,7 @@ message Record_Safety {
 message Record_Breathe {
   int32 id = 1;
   int64 create_time = 31;
-  Valve_breathe v = 32;  //阀门型号信息
+  Valve v = 32;  //阀门型号信息
   string file_path = 33;  //测量记录文件路径
 }
 
@@ -474,12 +473,12 @@ message ListValveRequest {
 
 message ListValveResponse {
   BaseResponse rsp = 1;
-  repeated Valve_safety valve_list = 2;
+  repeated Valve valve_list = 2;
   int32 count = 3;
 }
 
 message CreateValveRequest {
-  Valve_safety valve = 1;
+  Valve valve = 1;
 }
 
 message CreateValveResponse {
