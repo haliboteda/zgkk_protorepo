@@ -363,35 +363,36 @@ message ValveAdjt {
 // Valve
 message Valve {
   int32 id = 1;
-  string name = 24;//商品名称
-  string specification = 25;//规格
-  string material = 26;//材质
-  string code = 22;//阀门编号
-  string p_license = 2;//许可证编号
-  string kind = 3;//阀门类型(安全阀：弹簧式、先导式、重锤式) 旧名valveType
-  string model = 4;//阀门型号 旧名valveTypeNo
-  string product_date = 5;//出厂日期
-  string oem_name = 6;//制造单位
-  string DN = 7;//公称通径
-  string base_rd = 8;//阀座口径
-  string PS = 9;//阀门的整定压力 即要求整定压力
-  string sealed_area = 10;//密封面积
-  string sealed_rd = 11;//密封直径
-  string norminal_p = 12;//公称压力
-  string sealed_rd_o = 13;//密封外径
-  string sealed_rd_i = 14;//密封内径
-  string flow_dia = 15;//流道直径
-  string sterm_size = 16;//阀杆螺纹尺
-  string sterm_height = 17;//阀杆外露高
-  int32 is_active = 18;
-  int64 create_time = 19;
-  int32 create_by = 20;
-  int64 update_time = 21;
-  string singleC = 23;//单圈变量
-  ValveAdjt adjt = 30;
+  string name = 2;          // 商品名称
+  string specification = 3; // 规格
+  string material = 4;      // 材质
+  string code = 5;          // 阀门编号
+  string p_license = 6;     // 许可证编号
+  string kind = 7;          // 阀门类型(安全阀：弹簧式、先导式、重锤式) 旧名valveType
+  string model = 8;         // 阀门型号 旧名valveTypeNo
+  int32 type = 9;           // 阀门类型 1000-1999安全阀 2000-2999呼吸阀
+  string product_date = 10; // 出厂日期
+  string oem_name = 11;     // 制造单位
+  string DN = 12;           // 公称通径
+  string base_rd = 13;      // 阀座口径
+  string PS = 14;           // 阀门的整定压力 即要求整定压力
+  string sealed_area = 15;  // 密封面积
+  string sealed_rd = 16;    // 密封直径
+  string norminal_p = 17;   // 公称压力
+  string sealed_rd_o = 18;  // 密封外径
+  string sealed_rd_i = 19;  // 密封内径
+  string flow_dia = 20;     // 流道直径
+  string sterm_size = 21;   // 阀杆螺纹尺
+  string sterm_height = 22; // 阀杆外露高
+  int32 is_active = 23;
+  int64 create_time = 24;
+  int32 create_by = 25;
+  int64 update_time = 26;
+  string singleC = 27;      // 单圈变量
+  ValveAdjt adjt = 28;
   // Breathe
-  string p_pos = 31;// 正压
-  string p_neg = 32;// 负压
+  string p_pos = 29;        // 正压
+  string p_neg = 30;        // 负压
 }
 
 // 用于安全阀
