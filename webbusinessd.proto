@@ -362,6 +362,11 @@ message ValveAdjt {
 }
 // Valve
 message Valve {
+  enum Category { 
+    VC_NONE = 0;
+    VC_Safety = 1;
+    VC_Breathe = 2 ;
+  }
   int32 id = 1;
   string name = 2;          // 商品名称
   string specification = 3; // 规格
