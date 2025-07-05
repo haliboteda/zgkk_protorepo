@@ -369,7 +369,7 @@ message Valve {
   string code = 22;//阀门编号
   string p_license = 2;//许可证编号
   string kind = 3;//阀门类型(安全阀：弹簧式、先导式、重锤式) 旧名valveType
-  string type = 4;//阀门型号 旧名valveTypeNo
+  string model = 4;//阀门型号 旧名valveTypeNo
   string product_date = 5;//出厂日期
   string oem_name = 6;//制造单位
   string DN = 7;//公称通径
