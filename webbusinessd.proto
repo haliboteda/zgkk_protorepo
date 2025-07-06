@@ -218,7 +218,7 @@ message Terminal {
   string name = 2;
   int32 department_id = 3;
   string code = 4;// 终端编号
-  string type = 9; // 终端型号
+  string model = 9; // 终端型号
   string sensors = 5;//json格式 sensor列表 { 名称/量程name: 300, 传感器种类type: , 传感器编号code:}
   string mac_addr = 6;
   int32 is_active = 7;
@@ -293,25 +293,34 @@ message Report {
   string device_name = 13;  //装置名称
   string position = 14;  //安装位置
   string exec_std = 15;  //执行标准
+  //string terminal_code = 16;  //仪器编号
+  //string terminal_type = 17;  //校验设备型号
+  string gauge_num = 18;  //压力表编号
+  string press_from = 19;
+  string press_to = 20;
+  int32 num_format = 21;  //数据精度
+  string file_path = 22;  //报告存放路径
+  int64 next_date = 23;
+  string valid_year = 24;
+  Employee tester = 25;
+  Employee checker = 26;
+  Employee approver = 27;
+  int64 create_time = 28;
+  int32 create_by = 29;
+  int64 inspection_date = 30;  // 阀门校验日期
+  int64 last_inspection_date = 31;  // 上次阀门校验日期
 
-  //string terminal_code = 18;  //仪器编号
-  //string terminal_type = 19;  //校验设备型号
-  string gauge_num = 20;  //压力表编号
-  string press_from = 21;
-  string press_to = 22;
-  int32 num_format = 23;  //数据精度
-  string file_path = 24;  //报告存放路径
-  int64 next_date = 25;
-  string valid_year = 26;
-  Employee tester = 27;
-  Employee checker = 28;
-  Employee approver = 29;
-  int64 create_time = 30;
-  int32 create_by = 31;
-  int64 inspection_date = 32;  // 阀门校验日期
+  string medium = 32;  //工作介质
+  string medium_check = 33;  //校验介质
+  Valve v = 34;  //阀门型号信息
+  string temperature = 35;
+  string temperature_medium = 36;
+  string tank_code = 37;  // 储罐编号
+  string tank_top = 38;  // 罐顶形式
+  string inspection_addr = 39;  // 检验地点
   //
-  Record_Safety r_s = 17;  //安全阀相关数据
-  Record_Breathe r_b = 18;  //呼吸阀相关数据
+  Record_Safety r_s = 40;  //安全阀相关数据
+  Record_Breathe r_b = 41;  //呼吸阀相关数据
 }
 
 message GetReportDetailRequest {
@@ -399,76 +408,94 @@ message Valve {
   string singleC = 27;      // 单圈变量
   ValveAdjt adjt = 28;
   // Breathe
-  string p_pos = 29;        // 正压
-  string p_neg = 30;        // 负压
+  string p_pos = 29;        // 呼出/正压
+  string p_neg = 30;        // 吸入/负压
+  string struct_type = 31;  // 结构形式
+  int64 installed_time = 32;  // 安装日期
+
 }
 
 // 用于安全阀
 message Record_Safety {
   int32 id = 1;
   string rd_code = 2;
-  string type = 3;//校验方式
-  string medium = 4;  //工作介质
-  string medium_check = 5;  //校验介质
-  string temperature = 6;
-  string temperature_medium = 7;
-  string p0 = 8;
-  string ps = 9;
-  string sealed_p = 10;
-  string test_p = 11;
-  string err = 12;
-  string result = 13;
-  string outside_check = 14;
-  string dissemble_check = 15;
-  string maintenance = 16;
-  string ps1 = 17;
-  string ps2 = 18;
-  string ps3 = 19;
-  string lift1 = 20;
-  string lift2 = 21;
-  string lift3 = 22;
-  string dis_p1 = 23;
-  string dis_p2 = 24;
-  string dis_p3 = 25;
-  string reseat_p1 = 26;
-  string reseat_p2 = 27;
-  string reseat_p3 = 28;
-  string conclusion = 29;
-  string remarks = 30;
-  int64 create_time = 31;
-  Valve v = 32;  //阀门型号信息
-  string file_path = 33;  //测量记录文件路径
-  string result_path = 34;  //测量结果文件路径
-  //int32 report_id = 35;
+  string type = 3;  //校验方式
+
+  string p0 = 4;
+  string ps = 5;
+  string sealed_p = 6;
+  string test_p = 7;
+  string err = 8;
+  string result = 9;
+  string outside_check = 10;
+  string dissemble_check = 11;
+  string maintenance = 12;
+  string ps1 = 13;
+  string ps2 = 14;
+  string ps3 = 15;
+  string lift1 = 16;
+  string lift2 = 17;
+  string lift3 = 18;
+  string dis_p1 = 19;
+  string dis_p2 = 20;
+  string dis_p3 = 21;
+  string reseat_p1 = 22;
+  string reseat_p2 = 23;
+  string reseat_p3 = 24;
+  string conclusion = 25;
+  string remarks = 26;
+  int64 create_time = 27;
+  string file_path = 28;  //测量记录文件路径
+  string result_path = 29;  //测量结果文件路径
+  //int32 report_id = 30;
+  
   //下面适用于带密封测试的校验
   enum SealedType { 
     ST_NONE = 0;
     ST_Bubble = 1;
-    ST_Keep = 2 ;
+    ST_Keep = 2;
   }
-  string rlt1 = 36;        // 传感器 1 的试验结论
-  string rlt2 = 37;        // 传感器 2 的试验结论
-  string rlt3 = 38;        // 传感器 3 的试验结论
-  SealedType sealedType = 39; // 密封测试类型: 气泡 保压
-  double b_ps = 40;  // 密封测试时压力
-  int32 b_t_i = 41;// 密封测试标准时间 秒
-  int32 b_t = 42;// 密封测试时间 秒
-  double r_v_i = 43;//密封泄露量 标准值
-  double r_v = 44;//密封泄露量 实际值
-  string rlt_b = 45;//密封测试结论
-  int32 bubble_num_input = 46; // 气泡标准个数
-  int32 bubble_num = 47; // 气泡个数
-  double p1 = 48;         // 密封测试时开始压力
-  double p2 = 49;         // 密封测试时结束压力
-  string pic = 50;        // 测量截图路径
-  string bubble_pic = 51; // 密封试验截图路径
+  string rlt1 = 31;        // 传感器 1 的试验结论
+  string rlt2 = 32;        // 传感器 2 的试验结论
+  string rlt3 = 33;        // 传感器 3 的试验结论
+  SealedType sealedType = 34; // 密封测试类型: 气泡 保压
+  double b_ps = 35;  // 密封测试时压力
+  int32 b_t_i = 36;  // 密封测试标准时间 秒
+  int32 b_t = 37;    // 密封测试时间 秒
+  double r_v_i = 38; //密封泄露量 标准值
+  double r_v = 39;   //密封泄露量 实际值
+  string rlt_b = 40; //密封测试结论
+  int32 bubble_num_input = 41; // 气泡标准个数
+  int32 bubble_num = 42; // 气泡个数
+  double p1 = 43;    // 密封测试时开始压力
+  double p2 = 44;    // 密封测试时结束压力
+  string pic = 45;   // 测量截图路径
+  string bubble_pic = 46; // 密封试验截图路径
 }
 // 用于呼吸阀
-message Record_Breathe {
+message Record_Breathe { 
   int32 id = 1;
-  int64 create_time = 31;
-  Valve v = 32;  //阀门型号信息
-  string file_path = 33;  //测量记录文件路径
+  int64 create_time = 2;
+  string file_path = 3;  //测量记录文件路径
+
+  double pos_p_std = 4;        // 呼出/正压 标准值
+  double neg_p_std = 5;        // 吸入/负压 标准值
+  double pos_p_act = 6;        // 呼出/正压 实际值
+  double neg_p_act = 7;        // 吸入/负压 实际值
+  string pos_rlt = 8;          // 呼出/正压 试验结论
+  string neg_rlt = 9;          // 吸入/负压 试验结论
+  double pos_flow_std = 10;    // 呼出/正压 流量 标准值
+  double neg_flow_std = 11;    // 吸入/负压 流量 标准值
+  double pos_flow_act = 12;    // 呼出/正压 流量 实际值
+  double neg_flow_act = 13;    // 吸入/负压 流量 实际值
+  string pos_flow_rlt = 14;    // 呼出/正压 流量 试验结论
+  string neg_flow_rlt = 15;    // 吸入/负压 流量 试验结论
+  string pos_leak_std = 16;    // 呼出/正压 泄漏 标准值
+  string neg_leak_std = 17;    // 吸入/负压 泄漏 标准值
+  string pos_leak_act = 18;    // 呼出/正压 泄漏 实际值
+  string neg_leak_act = 19;    // 吸入/负压 泄漏 实际值
+  string pos_leak_rlt = 20;    // 呼出/正压 泄漏 试验结论
+  string neg_leak_rlt = 21;    // 吸入/负压 泄漏 试验结论
 }
 
 message ListValveRequest {
