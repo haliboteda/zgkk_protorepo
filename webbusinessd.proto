@@ -412,7 +412,6 @@ message Valve {
   string p_neg = 30;        // 吸入/负压
   string struct_type = 31;  // 结构形式
   int64 installed_time = 32;  // 安装日期
-
 }
 
 // 用于安全阀
