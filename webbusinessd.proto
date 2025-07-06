@@ -378,7 +378,7 @@ message Valve {
   string p_license = 6;     // 许可证编号
   string kind = 7;          // 阀门类型(安全阀：弹簧式、先导式、重锤式) 旧名valveType
   string model = 8;         // 阀门型号 旧名valveTypeNo
-  int32 type = 9;           // 阀门类型 1000-1999安全阀 2000-2999呼吸阀
+  Category category = 9;           // 阀门类型 1000-1999安全阀 2000-2999呼吸阀
   string product_date = 10; // 出厂日期
   string oem_name = 11;     // 制造单位
   string DN = 12;           // 公称通径
