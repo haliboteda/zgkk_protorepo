@@ -364,10 +364,11 @@ message ValveAdjt {
 message Valve {
   enum Category { 
     VC_NONE = 0;
-    VC_Safety = 1000;
-    VC_Breathe_Normal = 2000 ;//普通常压
-    VC_Breathe_LowTemp = 2001 ;//低温先导式
-    VC_Breathe_Hydra = 2002 ;//液压式
+    VC_Safety = 1000;// 安全阀 - 总称
+    VC_Breathe = 2000 ;//呼吸阀 - 总称
+    VC_Breathe_Normal = 2001 ;//呼吸阀 普通常压
+    VC_Breathe_LowTemp = 2002 ;//呼吸阀 低温先导式
+    VC_Breathe_Hydra = 2003 ;//呼吸阀 液压式
   }
   int32 id = 1;
   string name = 2;          // 商品名称
