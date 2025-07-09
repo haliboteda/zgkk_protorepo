@@ -446,7 +446,7 @@ message Record_Safety {
   int64 create_time = 27;
   string file_path = 28;  //测量记录文件路径
   string result_path = 29;  //测量结果文件路径
-  //int32 report_id = 30;
+  int32 report_id = 30;
   
   //下面适用于带密封测试的校验
   enum SealedType { 
@@ -476,7 +476,7 @@ message Record_Breathe {
   int32 id = 1;
   int64 create_time = 2;
   string file_path = 3;  //测量记录文件路径
-
+  int32 report_id = 22;
   double pos_p_std = 4;        // 呼出/正压 标准值
   double neg_p_std = 5;        // 吸入/负压 标准值
   double pos_p_act = 6;        // 呼出/正压 实际值
