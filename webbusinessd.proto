@@ -495,6 +495,10 @@ message Record_Breathe {
   string neg_leak_act = 19;    // 吸入/负压 泄漏 实际值
   string pos_leak_rlt = 20;    // 呼出/正压 泄漏 试验结论
   string neg_leak_rlt = 21;    // 吸入/负压 泄漏 试验结论
+  string pos_p_pic = 23;
+  string neg_p_pic = 24;
+  string pos_p_s_pic = 25;
+  string neg_p_s_pic = 26;
 }
 
 message ListValveRequest {
