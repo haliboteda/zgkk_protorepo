@@ -285,10 +285,10 @@ message Report {
   Terminal terminal = 5;  // 由哪台终端测量
   ReportStatus status = 6;
   string rpt_code = 7;    // 报告编号
-  string user_addr = 8;
-  string user_contact = 9;
+  string user_addr = 8; //单位地址
+  string user_contact = 9;//联系人
   string user_phone = 10;
-  string user_name = 11;
+  string user_name = 11;//使用单位
   string device_code = 12;  // 设备代码
   string device_name = 13;  // 装置名称
   string position = 14;     // 安装位置
