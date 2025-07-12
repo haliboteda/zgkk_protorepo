@@ -321,7 +321,6 @@ message Report {
   string temperature_medium = 39;
   string tank_code = 40;            // 储罐编号
   string tank_top = 41;             // 罐顶形式
-  string inspection_addr = 42;      // 检验地点
   string chk_method = 43;           // 检验方式
   string chk_addr = 44;             // 检验地点
   string chk_env = 47;             // 检验环境
