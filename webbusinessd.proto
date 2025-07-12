@@ -310,6 +310,8 @@ message Report {
   string medium = 30;               // 工作介质
   string medium_check = 31;         // 校验介质
   Valve v = 32;                     // 阀门型号信息
+  Record_Safety r_s = 45;           // 安全阀相关数据
+  Record_Breathe r_b = 46;          // 呼吸阀相关数据
   string outside_check = 33;
   string dissemble_check = 34;
   string maintenance = 35;
@@ -322,8 +324,8 @@ message Report {
   string inspection_addr = 42;      // 检验地点
   string chk_method = 43;           // 检验方式
   string chk_addr = 44;             // 检验地点
-  Record_Safety r_s = 45;           // 安全阀相关数据
-  Record_Breathe r_b = 46;          // 呼吸阀相关数据
+  string chk_env = 47;             // 检验环境
+
 }
 
 message GetReportDetailRequest {
