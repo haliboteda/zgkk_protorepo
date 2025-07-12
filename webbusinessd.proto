@@ -271,56 +271,57 @@ message ListTerminalResponse {
 message Report {
   enum ReportStatus {
     RS_Dummy = 0;
-    RS_To_Check = 1;// 待校验
-    RS_Checking = 2;// 校验中
-    RS_To_Approval = 3;// 待审核
-    RS_Finished = 4;// 报告已出
-    RS_Invalid = 5;// 作废
+    RS_To_Check = 1;     // 待校验
+    RS_Checking = 2;     // 校验中
+    RS_To_Approval = 3;  // 待审核
+    RS_Finished = 4;      // 报告已出
+    RS_Invalid = 5;       // 作废
   }
+  
   int32 id = 1;
   int32 local_id = 2;
   int32 department_id = 3;
-  string seqNo = 4;  //库序号
-
-  Terminal terminal = 5;  //由哪台终端测量
+  string seqNo = 4;       // 库序号
+  Terminal terminal = 5;  // 由哪台终端测量
   ReportStatus status = 6;
-  string rpt_code = 7;  //报告编号
+  string rpt_code = 7;    // 报告编号
   string user_addr = 8;
   string user_contact = 9;
   string user_phone = 10;
   string user_name = 11;
-  string device_code = 12;  //设备代码
-  string device_name = 13;  //装置名称
-  string position = 14;  //安装位置
-  string exec_std = 15;  //执行标准
-  //string terminal_code = 16;  //仪器编号
-  //string terminal_type = 17;  //校验设备型号
-  string gauge_num = 18;  //压力表编号
-  string press_from = 19;
-  string press_to = 20;
-  int32 num_format = 21;  //数据精度
-  string file_path = 22;  //报告存放路径
-  int64 next_date = 23;
-  string valid_year = 24;
-  Employee tester = 25;
-  Employee checker = 26;
-  Employee approver = 27;
-  int64 create_time = 28;
-  int32 create_by = 29;
-  int64 inspection_date = 30;  // 阀门校验日期
-  int64 last_inspection_date = 31;  // 上次阀门校验日期
-
-  string medium = 32;  //工作介质
-  string medium_check = 33;  //校验介质
-  Valve v = 34;  //阀门型号信息
-  string temperature = 35;
-  string temperature_medium = 36;
-  string tank_code = 37;  // 储罐编号
-  string tank_top = 38;  // 罐顶形式
-  string inspection_addr = 39;  // 检验地点
-  //
-  Record_Safety r_s = 40;  //安全阀相关数据
-  Record_Breathe r_b = 41;  //呼吸阀相关数据
+  string device_code = 12;  // 设备代码
+  string device_name = 13;  // 装置名称
+  string position = 14;     // 安装位置
+  string exec_std = 15;     // 执行标准
+  string gauge_num = 16;    // 压力表编号
+  string press_from = 17;
+  string press_to = 18;
+  int32 num_format = 19;    // 数据精度
+  string file_path = 20;    // 报告存放路径
+  int64 next_date = 21;
+  string valid_year = 22;
+  Employee tester = 23;
+  Employee checker = 24;
+  Employee approver = 25;
+  int64 create_time = 26;
+  int32 create_by = 27;
+  int64 inspection_date = 28;       // 阀门校验日期
+  int64 last_inspection_date = 29;  // 上次阀门校验日期
+  string medium = 30;               // 工作介质
+  string medium_check = 31;         // 校验介质
+  Valve v = 32;                     // 阀门型号信息
+  string outside_check = 33;
+  string dissemble_check = 34;
+  string maintenance = 35;
+  string conclusion = 36;
+  string remarks = 37;
+  string temperature = 38;
+  string temperature_medium = 39;
+  string tank_code = 40;            // 储罐编号
+  string tank_top = 41;             // 罐顶形式
+  string inspection_addr = 42;      // 检验地点
+  Record_Safety r_s = 43;           // 安全阀相关数据
+  Record_Breathe r_b = 44;          // 呼吸阀相关数据
 }
 
 message GetReportDetailRequest {
@@ -426,9 +427,6 @@ message Record_Safety {
   string test_p = 7;
   string err = 8;
   string result = 9;
-  string outside_check = 10;
-  string dissemble_check = 11;
-  string maintenance = 12;
   string ps1 = 13;
   string ps2 = 14;
   string ps3 = 15;
@@ -441,8 +439,6 @@ message Record_Safety {
   string reseat_p1 = 22;
   string reseat_p2 = 23;
   string reseat_p3 = 24;
-  string conclusion = 25;
-  string remarks = 26;
   int64 create_time = 27;
   string file_path = 28;  //测量记录文件路径
   string result_path = 29;  //测量结果文件路径
