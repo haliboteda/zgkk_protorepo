@@ -322,8 +322,8 @@ message Report {
   string inspection_addr = 42;      // 检验地点
   string chk_method = 43;           // 检验方式
   string chk_addr = 44;             // 检验地点
-  Record_Safety r_s = 43;           // 安全阀相关数据
-  Record_Breathe r_b = 44;          // 呼吸阀相关数据
+  Record_Safety r_s = 45;           // 安全阀相关数据
+  Record_Breathe r_b = 46;          // 呼吸阀相关数据
 }
 
 message GetReportDetailRequest {
