@@ -325,7 +325,7 @@ message Report {
   string chk_method = 43;           // 检验方式
   string chk_addr = 44;             // 检验地点
   string chk_env = 47;             // 检验环境
-
+  string chk_device = 48;          // 检验仪器
 }
 
 message GetReportDetailRequest {
