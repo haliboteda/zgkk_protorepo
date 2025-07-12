@@ -313,7 +313,7 @@ message Report {
   Record_Safety r_s = 45;           // 安全阀相关数据
   Record_Breathe r_b = 46;          // 呼吸阀相关数据
   string outside_check = 33;
-  string dissemble_check = 34;
+  string disassemble_chk = 34;
   string maintenance = 35;
   string conclusion = 36;
   string remarks = 37;
