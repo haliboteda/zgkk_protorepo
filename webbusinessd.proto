@@ -423,11 +423,22 @@ message Record_Safety {
   int32 id = 1;
   string rd_code = 2;
   string type = 3;  //校验方式
-
+  string input_p0 = 47;//工作压力
+  string input_ps = 48;//整定压力
   string p0 = 4;
   string ps = 5;
-  string sealed_p = 6;
-  string test_p = 7;
+  string sealed_p = 6;//阀门密封压力
+  string test_p = 7;//阀门密封试验压力
+  int32 area_flag = 49;//1代表面积 0代表直径
+  int32 single_p = 50; // 单圈变量
+  string all_micro = 51;//安全类型 微启/全启
+  string m_method = 52; // 测量方法
+  int32 rd = 53;
+  int32 S = 54;
+  string pic1 = 55;
+  string pic2 = 56;
+  string pic3 = 57;
+  string last_pic = 58; // 验证图片 最后拍照
   string err = 8;
   string result = 9;
   string ps1 = 13;
