@@ -425,6 +425,8 @@ message Record_Safety {
   string type = 3;  //校验方式
   string input_p0 = 47;//工作压力
   string input_ps = 48;//整定压力
+  string input_rd = 59;
+  string input_s = 60;
   string p0 = 4;
   string ps = 5;
   string sealed_p = 6;//阀门密封压力
