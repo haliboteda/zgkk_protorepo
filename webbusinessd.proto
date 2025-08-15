@@ -432,11 +432,11 @@ message Record_Safety {
   string sealed_p = 6;//阀门密封压力
   string test_p = 7;//阀门密封试验压力
   int32 area_flag = 49;//1代表面积 0代表直径
-  int32 single_p = 50; // 单圈变量
+  string single_p = 50; // 单圈变量
   string all_micro = 51;//安全类型 微启/全启
   string m_method = 52; // 测量方法
-  int32 rd = 53;
-  int32 S = 54;
+  string rd = 53;
+  string S = 54;
   string pic1 = 55;
   string pic2 = 56;
   string pic3 = 57;
