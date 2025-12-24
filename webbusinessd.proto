@@ -507,12 +507,12 @@ message Record_Breathe {
   string neg_leak_act = 19;    // 吸入/负压 泄漏 实际值
   string pos_leak_rlt = 20;    // 呼出/正压 泄漏 试验结论
   string neg_leak_rlt = 21;    // 吸入/负压 泄漏 试验结论
-  string pos_p_pic = 23;
-  string neg_p_pic = 24;
-  string pos_p_s_pic = 25;
-  string neg_p_s_pic = 26;
-  string pos_flow_pic = 27;
-  string neg_flow_pic = 28;
+  string pic_setp_pos = 23;    // 整定压力 正
+  string pic_setp_neg = 24;
+  string pic_leak_pos = 25;    // 泄漏量 正
+  string pic_leak_neg = 26;
+  string pic_allopen_pos = 27; // 全开压力 正
+  string pic_allopen_neg = 28;
   //
   double pos_p_rtn = 29;        // 正 - 回座
   double neg_p_rtn = 30;        // 负 - 回座
