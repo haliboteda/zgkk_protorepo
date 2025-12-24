@@ -516,6 +516,8 @@ message Record_Breathe {
   //
   double pos_p_rtn = 29;        // 正 - 回座
   double neg_p_rtn = 30;        // 负 - 回座
+  double pos_p_allopen = 31;        // 正 - 全开压力
+  double neg_p_allopen = 32;        // 负 - 全开压力
 }
 
 message ListValveRequest {
