@@ -516,10 +516,10 @@ message Record_Breathe {
   //
   double pos_rtn_std = 29;        // 正 - 回座
   double pos_rtn = 30;        // 正 - 回座
-  double pos_rtn_rlt = 31;        // 正 - 回座
+  string pos_rtn_rlt = 31;        // 正 - 回座
   double neg_rtn_std = 32;        // 负 - 回座
   double neg_p = 33;        // 负 - 回座
-  double neg_rtn_rlt = 34;        // 负 - 回座
+  string neg_rtn_rlt = 34;        // 负 - 回座
   double pos_p_allopen = 35;        // 正 - 全开压力
   double neg_p_allopen = 36;        // 负 - 全开压力
 }
