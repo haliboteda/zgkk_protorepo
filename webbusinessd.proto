@@ -382,6 +382,7 @@ message Valve {
     VC_Breathe_Normal = 2001 ;//呼吸阀 普通常压
     VC_Breathe_LowTemp = 2002 ;//呼吸阀 低温先导式
     VC_Breathe_Hydra = 2003 ;//呼吸阀 液压式
+    VC_Breathe_Protego = 2004 ;//呼吸阀 Protego 出口负压等同于进口负压
   }
   int32 id = 1;
   string name = 2;          // 商品名称
