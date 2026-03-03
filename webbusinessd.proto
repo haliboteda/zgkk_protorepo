@@ -483,6 +483,9 @@ message Record_Safety {
   double p2 = 44;    // 密封测试时结束压力
   string pic = 45;   // 测量截图路径
   string bubble_pic = 46; // 密封试验截图路径
+  string bubble_time_input = 47;//气泡测试标准时间
+  string bubble_time = 48;//气泡测试标准时间
+  string buuble_ps = 49;//气泡测试时压力
 }
 // 用于呼吸阀
 message Record_Breathe { 
