@@ -423,7 +423,7 @@ message Valve {
 message Record_Safety {
   int32 id = 1;
   string rd_code = 2;
-  int32 type = 3;  //校验方式
+  string type = 3;  //校验方式 在线 离线
   double input_p0 = 47;//工作压力
   double input_ps = 48;//整定压力
   double input_rd = 59;
