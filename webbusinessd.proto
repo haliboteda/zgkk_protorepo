@@ -423,7 +423,7 @@ message Valve {
 message Record_Safety {
   int32 id = 1;
   string rd_code = 2;
-  int type = 3;  //校验方式
+  int32 type = 3;  //校验方式
   double input_p0 = 47;//工作压力
   double input_ps = 48;//整定压力
   double input_rd = 59;
@@ -434,8 +434,8 @@ message Record_Safety {
   double test_p = 7;//阀门密封试验压力
   int32 area_flag = 49;//1代表面积 0代表直径
   double single_p = 50; // 单圈变量
-  int all_micro = 51;//安全类型 微启/全启
-  int m_method = 52; // 测量方法
+  int32 all_micro = 51;//安全类型 微启/全启
+  int32 m_method = 52; // 测量方法
   double rd = 53;
   double S = 54;
   string pic1 = 55;
