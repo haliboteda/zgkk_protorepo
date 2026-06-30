@@ -328,7 +328,8 @@ message Report {
   //
   string order_no_ex1 = 60;       //用来扩展订单号信息，在保一中，为作业指令号
   string order_no_ex2 = 61;       //用来扩展订单号信息，在保一中，为装配单号
-  int32 runit = 62;                 //压力单位
+  int32 Funit = 62;                 //压力单位
+  int32 Diaunit = 63;               //直径单位
 }
 
 message GetReportDetailRequest {
