@@ -47,7 +47,7 @@ service WebBusiness {
 
   // 审核员
   rpc ApproveReports(ApproveReportsRequest) returns (ApproveReportsResponse);//host/approve_reports
-  rpc ListReport(ListReportRequest) returns (ListReportResponse)// host/list_report
+  rpc ListReport(ListReportRequest) returns (ListReportResponse);// host/list_report
 }
 
 
