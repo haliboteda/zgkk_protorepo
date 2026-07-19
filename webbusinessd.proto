@@ -170,7 +170,7 @@ message ListEmployeeRequest {
   int32 first_pos = 4;
   int32 second_pos = 5;
   string id_card = 6; // 身份证
-  EmployeeType type = 7;
+  Employee.EmployeeType type = 7;
 }
 
 message ListEmployeeResponse {
