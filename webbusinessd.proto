@@ -407,13 +407,21 @@ message Valve {
     VC_Breathe_Hydra = 2003 ;//呼吸阀 液压式
     VC_Breathe_Protego = 2004 ;//呼吸阀 Protego 出口负压等同于进口负压
   }
+  enum Kind {
+    VK_NONE = 0;
+    VK_Spring = 1;//弹簧式	Spring-loaded
+    VK_Pilot = 2;//先导式	Pilot-operated
+    VK_Weight = 3;//重锤式	Weight-loaded
+    VK_Lever = 4;//杠杆式	Lever-loaded
+    VK_DeadWeight = 5;//净重式	Dead-weight-loaded
+  }
   int32 id = 1;
   string name = 2;          // 商品名称
   string specification = 3; // 规格
   string material = 4;      // 材质
   string code = 5;          // 阀门编号
   string p_license = 6;     // 许可证编号
-  string kind = 7;          // 阀门类型(安全阀：弹簧式、先导式、重锤式 呼吸阀：结构形式 杠杆式、净重式) 旧名valveType
+  Kind kind = 7;          // 阀门类型(安全阀：弹簧式\先导式\重锤式\杠杆式\净重式 呼吸阀：结构形式 ) 旧名valveType
   string model = 8;         // 阀门型号 旧名valveTypeNo
   Category category = 9;           // 阀门类型 1000-1999安全阀 2000-2999呼吸阀
   string product_date = 10; // 出厂日期
@@ -555,17 +563,21 @@ message Record_Breathe {
 // 委托单
 message OrderForm {
   int32 id = 1;
-  int32 department_id = 12;
-  string o_code = 11;// 委托单编号
-  int64 create_time = 2; // 送检时间
-  string file_path = 3;  //委托单文件路径
+  int32 department_id = 2;
+  string o_code = 3;// 委托单编号
+  int64 create_time = 4; // 送检时间
+  string file_path = 5;  //委托单文件路径
   //
-  string deliver = 5; // 送检人(单位)
-  string deliver_phone = 6; // 送检人 联系电话
-  repeated OrderForm_item items = 7;
-  string deliver_name = 8; // 送检人
-  string receiver_name = 9; // 接收人
-  int64 receiver_time = 10; // 接收时间
+  string user_addr = 6; //单位地址
+  string user_contact = 7;//联系人
+  string user_phone = 8;
+  string user_name = 9;//使用单位
+  string deliver = 10; // 送检人(单位)
+  string deliver_phone = 11; // 送检人 联系电话
+  repeated OrderForm_item items = 12;
+  string deliver_name = 13; // 送检人
+  string receiver_name = 14; // 接收人
+  int64 receiver_time = 15; // 接收时间
 }
 message OrderForm_item {
   int32 seqno = 1;
