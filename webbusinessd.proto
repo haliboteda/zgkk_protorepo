@@ -14,26 +14,40 @@ service WebBusiness {
   rpc CreateEmployee(CreateEmployeeRequest) returns (CreateEmployeeResponse);// host/create_employee
   rpc UpdateEmployee(UpdateEmployeeRequest) returns (UpdateDepartmentResponse);// host/update_employee
   rpc GetEmployee(GetEmployeeRequest) returns (GetEmployeeResponse);
+
   //department
   rpc ListDepartment(ListDepartmentRequest) returns (ListDepartmentResponse);// host/list_department
   rpc CreateDepartment(CreateDepartmentRequest) returns (CreateDepartmentResponse);// host/create_department
   rpc UpdateDepartment(UpdateDepartmentRequest) returns (UpdateDepartmentResponse);// host/update_department
   rpc DeleteDepartment(DeleteDepartmentRequest) returns (DeleteDepartmentResponse);// host/delete_department
+
   //terminal
   rpc ListTerminal(ListTerminalRequest) returns (ListTerminalResponse);// host/list_terminal
   rpc RegisterTerminal(RegisterTerminalRequest) returns (RegisterTerminalResponse);// host/register_terminal
   rpc AuthoriseTerminal(AuthoriseTerminalRequest) returns (AuthoriseTerminalResponse);// host/authorise_terminal
   rpc SendHeartBeat(SendHeartBeatRequest) returns (SendHeartBeatResponse);// host/send_heart_beat
+
   //report
   rpc GetReportDetail(GetReportDetailRequest) returns (GetReportDetailResponse);//host/get_report_detail
   rpc FinishReport(FinishReportRequest) returns (FinishReportResponse);//host/finish_report
   rpc CreateReport(CreateReportRequest) returns (CreateReportResponse);//host/create_report
   rpc UpdateReport(UpdateReportRequest) returns (UpdateReportResponse);//host/update_report
+
   //valve
   rpc ListValve(ListValveRequest) returns (ListValveResponse);//host/list_valve
   rpc CreateValve(CreateValveRequest) returns (CreateValveResponse);//host/create_valve
 
   rpc UploadFile(UploadFileRequest) returns (UploadFileResponse);//host/file/upload
+
+  // 前台
+  rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);//host/create_order
+  rpc GetOrder(GetOrderRequest) returns (GetOrderResponse);// host/get_order
+  rpc UpdateOrder(UpdateOrderRequest) returns (UpdateOrderResponse);//host/update_order
+  rpc DeleteOrder(DeleteOrderRequest) returns (DeleteOrderResponse);// host/delete_order
+
+  // 审核员
+  rpc ApproveReports(ApproveReportsRequest) returns (ApproveReportsResponse);//host/approve_reports
+  rpc ListReport(ListReportRequest) returns (ListReportResponse)// host/list_report
 }
 
 
@@ -155,7 +169,8 @@ message ListEmployeeRequest {
   string name = 3;
   int32 first_pos = 4;
   int32 second_pos = 5;
-  string id_card = 8; // 身份证
+  string id_card = 6; // 身份证
+  EmployeeType type = 7;
 }
 
 message ListEmployeeResponse {
@@ -279,7 +294,7 @@ message Report {
   }
   
   int32 id = 1;
-  int32 local_id = 2;
+  //int32 local_id = 2;
   int32 department_id = 3;
   string seqNo = 4;       // 库序号
   Terminal terminal = 5;  // 由哪台终端测量
@@ -330,6 +345,9 @@ message Report {
   string order_no_ex2 = 61;       //用来扩展订单号信息，在保一中，为装配单号
   int32 Funit = 62;                 //压力单位
   int32 Diaunit = 63;               //直径单位
+  // 委托单id
+  int32 order_id = 64;// 委托单 vs 报告  = 一 对 多
+  //
 }
 
 message GetReportDetailRequest {
@@ -395,7 +413,7 @@ message Valve {
   string material = 4;      // 材质
   string code = 5;          // 阀门编号
   string p_license = 6;     // 许可证编号
-  string kind = 7;          // 阀门类型(安全阀：弹簧式、先导式、重锤式 呼吸阀：结构形式) 旧名valveType
+  string kind = 7;          // 阀门类型(安全阀：弹簧式、先导式、重锤式 呼吸阀：结构形式 杠杆式、净重式) 旧名valveType
   string model = 8;         // 阀门型号 旧名valveTypeNo
   Category category = 9;           // 阀门类型 1000-1999安全阀 2000-2999呼吸阀
   string product_date = 10; // 出厂日期
@@ -417,6 +435,9 @@ message Valve {
   int64 update_time = 26;
   string singleC = 27;      // 单圈变量
   ValveAdjt adjt = 28;
+
+
+
   // Breathe
   string p_pos = 29;        // 呼出/正压
   string p_neg = 30;        // 吸入/负压
@@ -531,6 +552,36 @@ message Record_Breathe {
   double neg_p_allopen = 36;        // 负 - 全开压力
 }
 
+// 委托单
+message OrderForm {
+  int32 id = 1;
+  int32 department_id = 12;
+  string o_code = 11;// 委托单编号
+  int64 create_time = 2; // 送检时间
+  string file_path = 3;  //委托单文件路径
+  //
+  string deliver = 5; // 送检人(单位)
+  string deliver_phone = 6; // 送检人 联系电话
+  repeated OrderForm_item items = 7;
+  string deliver_name = 8; // 送检人
+  string receiver_name = 9; // 接收人
+  int64 receiver_time = 10; // 接收时间
+}
+message OrderForm_item {
+  int32 seqno = 1;
+  string p_device = 2;// 被保护装备种类
+  string model = 3;//安全阀型号
+  string DN = 4;// 公称通径
+  string flow_dia = 5;     // 流道直径
+  string code = 6;          // 阀门编号 / 产品编号
+  string medium = 7;               // 工作介质
+  string product_date = 8; // 出厂日期
+  string press_range = 9;// 压力范围
+  string pos_num = 10;// 位号
+  double input_p0 = 11;//工作压力
+  string PS = 12;           // 阀门的整定压力 即要求整定压力
+}
+//
 message ListValveRequest {
   BaseListArg list_arg = 1;
   string dn = 2;
@@ -580,4 +631,62 @@ message AuthoriseTerminalResponse {
 /////////////////////////////////////////////
 message Sensor {
 
+}
+
+//////////////////////////////////////////////
+message CreateOrderRequest {
+  BaseListArg list_arg = 1;
+  OrderForm newo =  2;
+}
+
+message CreateOrderResponse {
+  BaseResponse rsp = 1;
+  string o_code = 2;// 由服务器生成订单号
+}
+
+message GetOrderRequest {
+  BaseListArg list_arg = 1;
+  string o_code =  2;// 委托单编号
+}
+
+message GetOrderResponse {
+  BaseResponse rsp = 1;
+  OrderForm order = 2;//
+}
+
+message UpdateOrderRequest {
+  BaseListArg list_arg = 1;
+  OrderForm newo =  2;
+}
+
+message UpdateOrderResponse {
+  BaseResponse rsp = 1;
+}
+
+message DeleteOrderRequest {
+  BaseListArg list_arg = 1;
+  string o_code =  2;// 委托单编号
+}
+
+message DeleteOrderResponse {
+  BaseResponse rsp = 1;
+}
+//
+message ApproveReportsRequest {
+  repeated int32 report_id = 1;
+}
+
+message ApproveReportsResponse {
+  BaseListArg list_arg = 1;
+}
+
+message ListReportRequest {
+  BaseResponse rsp = 1;
+  int64 time_from = 2;// 查询起始时间
+  int64 time_to = 3;// 查询结束时间
+}
+
+message ListReportResponse {
+  BaseResponse rsp = 1;
+  repeated Report reports = 2;
 }
