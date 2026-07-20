@@ -584,6 +584,7 @@ message OrderForm_item {
   string pos_num = 10;// 位号
   double input_p0 = 11;//工作压力
   string PS = 12;           // 阀门的整定压力 即要求整定压力
+  int32 vnum = 13;//数量
 }
 //
 message ListValveRequest {
