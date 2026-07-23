@@ -282,23 +282,23 @@ message ListTerminalResponse {
   repeated Terminal terminal_list = 2;
   int32 count = 3;
 }
+//
+enum DocStatus {
+  DS_Dummy = 0;
+  DS_To_Check = 1;     // 待校验
+  DS_Checking = 2;     // 校验中
+  DS_To_Approval = 3;  // 待审核
+  DS_Finished = 4;      // 报告已出
+  DS_Invalid = 5;       // 作废
+}
 //report
 message Report {
-  enum ReportStatus {
-    RS_Dummy = 0;
-    RS_To_Check = 1;     // 待校验
-    RS_Checking = 2;     // 校验中
-    RS_To_Approval = 3;  // 待审核
-    RS_Finished = 4;      // 报告已出
-    RS_Invalid = 5;       // 作废
-  }
-  
   int32 id = 1;
   //int32 local_id = 2;
   int32 department_id = 3;
   string seqNo = 4;       // 库序号
   Terminal terminal = 5;  // 由哪台终端测量
-  ReportStatus status = 6;
+  DocStatus status = 6;
   string rpt_code = 7;    // 报告编号
   string user_addr = 8; //单位地址
   string user_contact = 9;//联系人
@@ -570,6 +570,8 @@ message OrderForm {
   string deliver_name = 13; // 送检人
   string receiver_name = 14; // 接收人
   int64 receiver_time = 15; // 接收时间
+  //
+  DocStatus status = 16; // 委托单状态
 }
 message OrderForm_item {
   int32 seqno = 1;
