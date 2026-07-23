@@ -284,7 +284,6 @@ message ListTerminalResponse {
 }
 //
 enum DocStatus {
-  DS_Dummy = 0;
   DS_To_Check = 1;     // 待校验
   DS_Checking = 2;     // 校验中
   DS_To_Approval = 3;  // 待审核
