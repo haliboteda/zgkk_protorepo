@@ -673,6 +673,7 @@ message UpdateOrderResponse {
 message DeleteOrderRequest {
   BaseListArg list_arg = 1;
   string o_code =  2;// 委托单编号
+  int32 o_id = 3;// 委托单id
 }
 
 message DeleteOrderResponse {
