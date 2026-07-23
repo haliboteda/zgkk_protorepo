@@ -566,7 +566,7 @@ message OrderForm {
   string user_name = 9;//使用单位
   string deliver = 10; // 送检人(单位)
   string deliver_phone = 11; // 送检人 联系电话
-  repeated OrderForm_item items = 12;
+  repeated OrderForm_item of_items = 12;
   string deliver_name = 13; // 送检人
   string receiver_name = 14; // 接收人
   int64 receiver_time = 15; // 接收时间
