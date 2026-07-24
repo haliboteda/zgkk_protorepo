@@ -66,14 +66,22 @@ message BaseResponse {
 message TestRequest { string code = 1; }
 message TestResponse { string code = 1; }
 //
+message SysRole {
+  int32 id = 1;
+  string role_name = 2;
+  int32 enable = 6;
+}
 message SysUser {
   int32 id = 1;
   int32 department_id = 2;
-  int32 employee_id = 7;
-  string nick_name = 3;
+  int32 employee_id = 3;
   string username = 4;
-  string password = 5;
-  int32 is_active = 6;
+  string display_name = 5;
+  //string password = 6;//pin_hash
+  int32 is_active = 7;
+  //
+  SysRole sys_role = 8;
+  repeated string perm_keys = 9;
 }
 
 
@@ -86,6 +94,7 @@ message LoginRequest {
 message LoginResponse {
   BaseResponse rsp = 1;
   string token = 2;
+  SysUser sys_user = 3;
 }
 
 message LogoutRequest {
