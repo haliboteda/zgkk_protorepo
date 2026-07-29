@@ -8,6 +8,9 @@ service WebBusiness {
   rpc Logout(LogoutRequest) returns (LogoutResponse);// host/sys/logout
   rpc UpdatePwd(UpdatePwdRequest) returns (UpdatePwdResponse);// host/sys/updatepwd
   rpc ListSysuser(ListSysuserRequest) returns (ListSysuserResponse);//host/list_sysuser
+  rpc AddSysuser(AddSysuserRequest) returns (ListSysuserResponse);//host/add_sysuser
+  rpc UpdateSysuser(UpdateSysuserRequest) returns (UpdateSysuserResponse);//host/update_sysuser
+  rpc DelSysuser(DelSysuserRequest) returns (DelSysuserResponse);//host/del_sysuser
   //
   rpc Test(TestRequest) returns (TestResponse);//host/test/teset
   //
@@ -91,11 +94,30 @@ message SysUser {
 }
 message ListSysuserRequest {
   BaseListArg list_arg = 1;
+  int32 is_all = 2;// 0 只显示active的， 1 显示所有
 }
-
 message ListSysuserResponse {
   BaseResponse rsp = 1;
   repeated SysUser sys_users = 2;
+}
+
+message AddSysuserRequest {
+  SysUser sys_user = 1;
+}
+message AddSysuserResponse {
+  BaseResponse rsp = 1;
+}
+message UpdateSysuserRequest {
+  SysUser sys_user = 1;
+}
+message UpdateSysuserResponse {
+  BaseResponse rsp = 1;
+}
+message DelSysuserRequest {
+  int32 sys_user_id = 1;//逻辑删除
+}
+message DelSysuserResponse {
+  BaseResponse rsp = 1;
 }
 // system
 message LoginRequest {
