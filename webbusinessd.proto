@@ -757,7 +757,7 @@ message SettingApproRptResponse {
 }
 
 // log
-enum LogLevel{
+enum LogLvl{
   L_All = 0;
   L_Deb = 1;
   L_Err = 2;
@@ -767,7 +767,7 @@ enum LogLevel{
 message LogLog {
   int32 id = 1;
   int64 create_time = 2;
-  LogLevel level = 3;
+  LogLvl level = 3;
   string msg = 4;
 }
 message ListLogRequest {
@@ -775,7 +775,7 @@ message ListLogRequest {
   int64 time_from = 2;// 查询起始时间
   int64 time_to = 3;// 查询结束时间
   string key_word = 4; // 关键字
-  LogLevel level = 5;
+  LogLvl level = 5;
 }
 
 message ListLogResponse {
