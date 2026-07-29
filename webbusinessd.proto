@@ -57,6 +57,9 @@ service WebBusiness {
   // 自动审批
   rpc SettingApproRpt(SettingApproRptRequest) returns (SettingApproRptResponse); //host/setting_approve_rpts
 
+  // 统计：订单数/报告数按日或按月汇总，同时返回当日订单数/报告数/待审批报告数
+  rpc ListReportSummary(ListReportSummaryRequest) returns (ListReportSummaryResponse); //host/list_report_summary
+
 }
 
 
@@ -99,6 +102,7 @@ message ListSysuserRequest {
 message ListSysuserResponse {
   BaseResponse rsp = 1;
   repeated SysUser sys_users = 2;
+  int32 count = 3; // 总数，用于分页
 }
 
 message AddSysuserRequest {
@@ -696,6 +700,7 @@ message ListOrderRequest {
 message ListOrderResponse {
   BaseResponse rsp = 1;
   repeated OrderForm orders = 2;//
+  int32 count = 3; // 总数，用于分页
 }
 
 message UpdateOrderRequest {
@@ -738,6 +743,7 @@ message ListReportRequest {
 message ListReportResponse {
   BaseResponse rsp = 1;
   repeated Report reports = 2;
+  int32 count = 3; // 总数，用于分页
 }
 
 // 自动审批 设置
@@ -775,4 +781,28 @@ message ListLogRequest {
 message ListLogResponse {
   BaseResponse rsp = 1;
   repeated LogLog l = 2;
+  int32 count = 3; // 总数，用于分页
+}
+
+// 统计
+message ListReportSummaryRequest {
+  enum Granularity {
+    G_DAY = 0;   // 按日统计，用于"近7日"等场景
+    G_MONTH = 1; // 按月统计，用于"本年1月至今"/"去年全年"等场景
+  }
+  Granularity granularity = 1;
+  int64 from_date = 2;
+  int64 to_date = 3;
+}
+
+message ReportSummaryPoint {
+  string period = 1;      // granularity=G_DAY: "2026-07-29"；granularity=G_MONTH: "2026-07"
+  int32 order_count = 2;  // 该周期内新建委托单数量
+  int32 report_count = 3; // 该周期内新建报告数量
+  int32 pending_approve_count = 4; // 该周期内待审批报告数 (DS_To_Approval) (仅在查询当日时使用该字段)
+}
+
+message ListReportSummaryResponse {
+  BaseResponse rsp = 1;
+  repeated ReportSummaryPoint points = 2;
 }
