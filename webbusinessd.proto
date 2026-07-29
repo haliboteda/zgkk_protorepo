@@ -690,7 +690,7 @@ message CreateOrderResponse {
 
 message ListOrderRequest {
   BaseListArg list_arg = 1;
-  string doc_code_code =  2;// 委托单编号
+  string doc_code =  2;// 委托单编号
   string key_word = 3; // 单位或联系人
   int64 from_date = 4;
   int64 to_date = 5;
