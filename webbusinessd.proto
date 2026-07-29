@@ -11,6 +11,7 @@ service WebBusiness {
   rpc AddSysuser(AddSysuserRequest) returns (ListSysuserResponse);//host/add_sysuser
   rpc UpdateSysuser(UpdateSysuserRequest) returns (UpdateSysuserResponse);//host/update_sysuser
   rpc DelSysuser(DelSysuserRequest) returns (DelSysuserResponse);//host/del_sysuser
+  rpc ListRole(ListRoleRequest) returns (ListRoleResponse);//host/list_role
   //
   rpc Test(TestRequest) returns (TestResponse);//host/test/teset
   //
@@ -92,12 +93,14 @@ message SysUser {
   string password = 6;//pin_hash
   int32 is_active = 7;
   //
-  SysRole sys_role = 8;
-  repeated string perm_keys = 9;
+  SysRole sys_role = 9;
+  repeated string perm_keys = 10;
+  int64 create_time = 11;
 }
 message ListSysuserRequest {
   BaseListArg list_arg = 1;
   int32 is_all = 2;// 0 只显示active的， 1 显示所有
+  string key_word = 3; // 按姓名/登录名模糊检索
 }
 message ListSysuserResponse {
   BaseResponse rsp = 1;
@@ -122,6 +125,14 @@ message DelSysuserRequest {
 }
 message DelSysuserResponse {
   BaseResponse rsp = 1;
+}
+// 角色下拉框数据源：is_all=0 只返回启用且非超级管理员(is_system=0)的角色，1 返回全部(含超级管理员/禁用)
+message ListRoleRequest {
+  int32 is_all = 1;
+}
+message ListRoleResponse {
+  BaseResponse rsp = 1;
+  repeated SysRole roles = 2;
 }
 // system
 message LoginRequest {
