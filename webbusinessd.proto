@@ -717,4 +717,29 @@ message SettingApproRptResponse {
   BaseResponse rsp = 1;
 }
 
-// 
+// log
+enum LogLevel{
+  L_All = 0;
+  L_Deb = 1;
+  L_Err = 2;
+  L_Fat = 3;
+}
+
+message LogLog {
+  int32 id = 1;
+  int64 create_time = 2;
+  LogLevel level = 3;
+  string msg = 4;
+}
+message ListLogRequest {
+  BaseListArg list_arg = 1;
+  int64 time_from = 2;// 查询起始时间
+  int64 time_to = 3;// 查询结束时间
+  string key_word = 4; // 关键字
+  LogLevel level = 5;
+}
+
+message ListLogResponse {
+  BaseResponse rsp = 1;
+  repeated LogLog l = 2;
+}
