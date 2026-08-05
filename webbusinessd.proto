@@ -176,6 +176,7 @@ message Employee {
     ET_Approver = 4; // 审核员
     ET_Normal = 5;// 普通
     ET_FrontDesk = 6;// 前台
+    ET_Stamper = 7;// 盖章人员
   }
   int32 id = 1;
   int32 department_id = 2;
