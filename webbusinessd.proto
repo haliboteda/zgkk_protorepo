@@ -43,10 +43,18 @@ service WebBusiness {
   //valve
   rpc ListValve(ListValveRequest) returns (ListValveResponse);//host/list_valve
   rpc CreateValve(CreateValveRequest) returns (CreateValveResponse);//host/create_valve
-
+  // file
   rpc UploadFile(UploadFileRequest) returns (UploadFileResponse);//host/file/upload
 
+  rpc DownloadOrderPdf(DownOrderPdfRequest) returns (DownOrderPdfResponse);//host/download_order_pdf
+  rpc DownRptPdf(DownRptPdfRequest) returns (DownRptPdfResponse);//host/download_rpt_pdf
+
+  // docx转pdf：本机 LibreOffice 转换，docx/pdf 都走 bytes 字段
+  rpc ConvertDocxToPdf(ConvertDocxToPdfRequest) returns (ConvertDocxToPdfResponse); // host/convert_docx_to_pdf
+
   // 委托单
+  // 原子发号：只递增 annual_seq_counter，不落地任何委托单数据；o_code = year + 5位补零的seq，客户端自己拼
+  rpc NextOrderSeq(NextOrderSeqRequest) returns (NextOrderSeqResponse);// host/next_order_seq
   rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);//host/create_order
   rpc ListOrder(ListOrderRequest) returns (ListOrderResponse);// host/list_order
   rpc UpdateOrder(UpdateOrderRequest) returns (UpdateOrderResponse);//host/update_order
@@ -418,6 +426,7 @@ message FinishReportResponse {
 }
 message CreateReportRequest {
   Report report = 1;
+  bytes pdf_content = 2; // 签好章的pdf二进制内容，跟报告数据一起提交；没有pdf(比如没有报告模板)时留空
 }
 message CreateReportResponse {
   BaseResponse rsp = 1;
@@ -425,6 +434,7 @@ message CreateReportResponse {
 }
 message UpdateReportRequest {
   Report report = 1;
+  bytes pdf_content = 2; // 同 CreateReportRequest
 }
 message UpdateReportResponse {
   BaseResponse rsp = 1;
@@ -674,6 +684,31 @@ message UploadFileResponse {
   string file_path = 2;
 }
 
+// pdf 内容走 bytes 字段（protobuf JSON 里是 base64 字符串），下载复用同样的方式，纯 protobuf-JSON，不用 multipart
+message DownOrderPdfRequest {
+  int32 order_id = 1;
+}
+message DownOrderPdfResponse {
+  BaseResponse rsp = 1;
+  bytes pdf_content = 2;
+}
+
+message DownRptPdfRequest {
+  int32 report_id = 1;
+}
+message DownRptPdfResponse {
+  BaseResponse rsp = 1;
+  bytes pdf_content = 2;
+}
+
+message ConvertDocxToPdfRequest {
+  bytes docx_content = 1;
+}
+message ConvertDocxToPdfResponse {
+  BaseResponse rsp = 1;
+  bytes pdf_content = 2;
+}
+
 message AuthoriseTerminalRequest {
   string terminal_name = 1;// 
   string terminal_type = 2;// 
@@ -694,11 +729,22 @@ message Sensor {
 message CreateOrderRequest {
   BaseListArg list_arg = 1;
   OrderForm newo =  2;
+  bytes pdf_content = 3; // 签好章的pdf二进制内容，跟委托单数据一起提交；没有pdf(比如没有委托单模板)时留空
 }
 
 message CreateOrderResponse {
   BaseResponse rsp = 1;
-  string o_code = 2;// 由服务器生成订单号
+  string o_code = 2;// 委托单编号，现在由客户端生成(见 NextOrderSeq)，这里原样带回确认
+  int32 order_id = 3;// 服务器分配的委托单id，之后客户端本地记录改用这个id
+}
+
+message NextOrderSeqRequest {
+}
+
+message NextOrderSeqResponse {
+  BaseResponse rsp = 1;
+  int32 year = 2;
+  int32 seq = 3;// 本年度第几个委托单，原子递增得到，客户端拼接 o_code = year + 5位补零seq
 }
 
 message ListOrderRequest {
@@ -708,6 +754,7 @@ message ListOrderRequest {
   int64 from_date = 4;
   int64 to_date = 5;
   repeated DocStatus o_sts = 6; // 委托单状态
+  int32 o_id = 7; // 按id精确查询(比如修改前先查一次当前状态)，>0时忽略其他过滤条件
 }
 
 message ListOrderResponse {
@@ -719,10 +766,12 @@ message ListOrderResponse {
 message UpdateOrderRequest {
   BaseListArg list_arg = 1;
   OrderForm newo =  2;
+  bytes pdf_content = 3; // 同 CreateOrderRequest
 }
 
 message UpdateOrderResponse {
   BaseResponse rsp = 1;
+  bool already_started = 2; // true时表示该委托单已开始校验，rsp.msg 附带提示文案；客户端据此弹"作废后重新提交"
 }
 
 message DeleteOrderRequest {
