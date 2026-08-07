@@ -47,7 +47,13 @@ service WebBusiness {
   rpc UploadFile(UploadFileRequest) returns (UploadFileResponse);//host/file/upload
 
   rpc DownloadOrderPdf(DownOrderPdfRequest) returns (DownOrderPdfResponse);//host/download_order_pdf
-  rpc DownRptPdf(DownRptPdfRequest) returns (DownRptPdfResponse);//host/download_rpt_pdf
+
+  // 报告(XT_安全阀校验报告)/记录(XT_校验记录)/校验数据(安全阀校验数据) 三个文件围绕同一份报告成组出现，
+  // 下载/上传统一走这一组接口，不拆开传：DsToApproval/DsApproved/DsFinished 三种状态打开 Detail_Report 都用 DownRptFiles 临时取一份预览；
+  // 审批只发生在 DsToApproval：客户端本地用人名章给下载下来的报告文件加签，只把报告，其他两个空 UploadRptFiles 回传，
+  // 服务器原地覆盖旧文件、把 approver/status(->DS_Approved) 落库
+  rpc DownRptFiles(DownRptFilesRequest) returns (DownRptFilesResponse);//host/download_rpt_files
+  rpc UploadRptFiles(UploadRptFilesRequest) returns (UploadRptFilesResponse);//host/upload_rpt_files
 
   // docx转pdf：本机 LibreOffice 转换，docx/pdf 都走 bytes 字段
   rpc ConvertDocxToPdf(ConvertDocxToPdfRequest) returns (ConvertDocxToPdfResponse); // host/convert_docx_to_pdf
@@ -693,12 +699,32 @@ message DownOrderPdfResponse {
   bytes pdf_content = 2;
 }
 
-message DownRptPdfRequest {
+// 报告/记录/校验数据三个文件的内容打包在一起；哪个字段没内容就留空(bytes 默认空)，不代表文件不存在，
+// 调用方按当前报告实际生成到哪一步自行判断
+message ReportFileGroup {
+  bytes report_content = 1; // 报告(XT_安全阀校验报告 rpt.FilePath)
+  bytes record_content = 2; // 记录(XT_校验记录 rpt.RS.FilePath)
+  bytes result_content = 3; // 校验数据(安全阀校验数据)
+}
+
+// 下载：DsToApproval/DsApproved/DsFinished 打开 Detail_Report 预览都用这个，客户端存临时文件/内存，关窗口自己清
+message DownRptFilesRequest {
   int32 report_id = 1;
 }
-message DownRptPdfResponse {
+message DownRptFilesResponse {
   BaseResponse rsp = 1;
-  bytes pdf_content = 2;
+  ReportFileGroup files = 2;
+}
+
+// 上传：只在审批(DsToApproval->DsApproved)时用。report_content 是客户端本地加签后的报告文件，
+// record_content/result_content 原样带上(这次没改)；服务器原地覆盖三个旧文件，并把 approver、status 落库
+message UploadRptFilesRequest {
+  int32 report_id = 1;
+  ReportFileGroup files = 2;
+  Employee approver = 3;
+}
+message UploadRptFilesResponse {
+  BaseResponse rsp = 1;
 }
 
 message ConvertDocxToPdfRequest {
