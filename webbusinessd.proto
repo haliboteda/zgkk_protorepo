@@ -813,6 +813,7 @@ message DeleteOrderResponse {
 // 审批就是签章
 message ApproveReportsRequest {
   repeated int32 report_id = 1;
+  bytes report_content = 2; // 报告(XT_安全阀校验报告 rpt.FilePath)
 }
 
 message ApproveReportsResponse {
