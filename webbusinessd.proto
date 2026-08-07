@@ -412,6 +412,8 @@ message Report {
   // 委托单id
   int32 order_id = 64;// 委托单 vs 报告  = 一 对 多
   //
+  // get_report_detail 把文件内容跟数据一起带回来，客户端不用再单独调下载接口取报告pdf
+  bytes report_content = 65;  // file_path 对应文件的内容
 }
 
 message GetReportDetailRequest {
@@ -576,6 +578,15 @@ message Record_Safety {
   double p2 = 44;    // 密封测试时结束压力
   string pic = 45;   // 测量截图路径
   string bubble_pic = 46; // 密封试验截图路径
+
+  // get_report_detail 把文件内容跟数据一起带回来，客户端不用再单独调下载接口取这几个文件
+  bytes pic1_content = 61;        // pic1 图片内容
+  bytes pic2_content = 62;        // pic2 图片内容 可空
+  bytes pic3_content = 63;        // pic3 图片内容 可空
+  bytes pic_content = 64;         // pic(保压式密封截图) 图片内容
+  bytes bubble_pic_content = 65;  // bubble_pic(气泡式密封截图) 图片内容
+  bytes record_content = 66;      // file_path(校验记录) 对应文件的内容
+  bytes result_content = 67;      // 校验数据(安全阀校验数据) 文件内容
 }
 // 用于呼吸阀
 message Record_Breathe { 
@@ -616,6 +627,14 @@ message Record_Breathe {
   string neg_rtn_rlt = 34;        // 负 - 回座
   double pos_p_allopen = 35;        // 正 - 全开压力
   double neg_p_allopen = 36;        // 负 - 全开压力
+
+  // get_report_detail 把文件内容跟数据一起带回来，客户端不用再单独调下载接口取这几张图片
+  bytes pic_setp_pos_content = 37;
+  bytes pic_setp_neg_content = 38;
+  bytes pic_leak_pos_content = 39;
+  bytes pic_leak_neg_content = 40;
+  bytes pic_allopen_pos_content = 41;
+  bytes pic_allopen_neg_content = 42;
 }
 
 // 委托单
