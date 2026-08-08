@@ -63,6 +63,7 @@ service WebBusiness {
   rpc NextOrderSeq(NextOrderSeqRequest) returns (NextOrderSeqResponse);// host/next_order_seq
   rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);//host/create_order
   rpc ListOrder(ListOrderRequest) returns (ListOrderResponse);// host/list_order
+  rpc ListOrderItem(ListOrderItemRequest) returns (ListOrderItemResponse);// host/list_order_item
   rpc UpdateOrder(UpdateOrderRequest) returns (UpdateOrderResponse);//host/update_order
   rpc DeleteOrder(DeleteOrderRequest) returns (DeleteOrderResponse);// host/delete_order
 
@@ -142,11 +143,13 @@ message DelSysuserResponse {
 }
 // 角色下拉框数据源：is_all=0 只返回启用且非超级管理员(is_system=0)的角色，1 返回全部(含超级管理员/禁用)
 message ListRoleRequest {
-  int32 is_all = 1;
+  BaseListArg list_arg = 1;
+  int32 is_all = 2;
 }
 message ListRoleResponse {
   BaseResponse rsp = 1;
   repeated SysRole roles = 2;
+  int32 count = 3; // 总数，用于分页
 }
 // system
 message LoginRequest {
@@ -672,6 +675,7 @@ message OrderForm_item {
   double input_p0 = 11;//工作压力
   string PS = 12;           // 阀门的整定压力 即要求整定压力
   int32 vnum = 13;//数量
+  int32 order_id = 14;// 所属委托单id；
 }
 //
 message ListValveRequest {
@@ -808,6 +812,18 @@ message ListOrderResponse {
   int32 count = 3; // 总数，用于分页
 }
 
+// 只查明细表(order_form_item)，按委托单id批量取；
+message ListOrderItemRequest {
+  BaseListArg list_arg = 1;
+  repeated int32 order_ids = 2; // 要取明细的委托单id
+}
+
+message ListOrderItemResponse {
+  BaseResponse rsp = 1;
+  repeated OrderForm_item items = 2;
+  int32 count = 3; // 总数，用于分页
+}
+
 message UpdateOrderRequest {
   BaseListArg list_arg = 1;
   OrderForm newo =  2;
@@ -846,6 +862,7 @@ message ListReportRequest {
   int64 from_date = 4;
   int64 to_date = 5;
   repeated DocStatus o_sts = 6; // 状态
+  repeated int32 order_ids = 7; // 按所属委托单过滤
 }
 
 message ListReportResponse {
@@ -898,9 +915,10 @@ message ListReportSummaryRequest {
     G_DAY = 0;   // 按日统计，用于"近7日"等场景
     G_MONTH = 1; // 按月统计，用于"本年1月至今"/"去年全年"等场景
   }
-  Granularity granularity = 1;
-  int64 from_date = 2;
-  int64 to_date = 3;
+  BaseListArg list_arg = 1;
+  Granularity granularity = 2;
+  int64 from_date = 3;
+  int64 to_date = 4;
 }
 
 message ReportSummaryPoint {
@@ -913,4 +931,5 @@ message ReportSummaryPoint {
 message ListReportSummaryResponse {
   BaseResponse rsp = 1;
   repeated ReportSummaryPoint points = 2;
+  int32 count = 3; // 总数
 }
