@@ -111,6 +111,9 @@ message SysUser {
   SysRole sys_role = 9;
   repeated string perm_keys = 10;
   int64 create_time = 11;
+  //
+  bytes seal_image = 12;// 签章图片(png)，admin这一行存的是公章图
+  string sign_pin = 13;// 签章UKey的登录密码，admin这一行存的是公章UKey密码
 }
 message ListSysuserRequest {
   BaseListArg list_arg = 1;
