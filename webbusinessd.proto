@@ -93,12 +93,18 @@ message BaseResponse {
 }
 message TestRequest { string code = 1; }
 message TestResponse { string code = 1; }
-//
-message SysRole {
-  int32 id = 1;
-  string role_name = 2; // Admin管理人员 DepartmentAdmin部门管理员  Tester校验员 Checker审查员 Approver审核员 Staff普通员工
-  int32 enable = 6;
+
+// 系统里用户角色是写死的 会有一个相应的map
+enum SysRole {
+  RT_Normal = 0; // 普通员工
+  RT_Admin = 1; // 超管
+  RT_DeptAdmin = 2;// 部门管理员 盖公章
+  RT_Approver = 3; // 审核员
+  RT_Checker = 4; // 校核员
+  RT_Tester = 5; // 校验员
+  RT_FrontDesk = 6;// 前台
 }
+
 message SysUser {
   int32 id = 1;
   int32 department_id = 2;
@@ -188,19 +194,9 @@ enum RespCode{
 }
 
 message Employee {
-  enum EmployeeType {
-    ET_Dummy = 0;
-    ET_Admin = 1; //
-    ET_Tester = 2; // 校验员
-    ET_Checker = 3; // 校核员
-    ET_Approver = 4; // 审核员
-    ET_Normal = 5;// 普通
-    ET_FrontDesk = 6;// 前台
-    ET_Stamper = 7;// 盖章人员
-  }
   int32 id = 1;
   int32 department_id = 2;
-  EmployeeType type = 3;
+  SysRole sys_role = 3;//更多是为了兼容单机版，联网版很少用这个
   string name = 4;
   string work_number = 5;
   string avatar_url = 6;
