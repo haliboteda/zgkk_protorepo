@@ -67,6 +67,10 @@ service WebBusiness {
   rpc UpdateOrder(UpdateOrderRequest) returns (UpdateOrderResponse);//host/update_order
   rpc DeleteOrder(DeleteOrderRequest) returns (DeleteOrderResponse);// host/delete_order
 
+  // 报告
+  // 原子发号：只递增 annual_seq_counter.report_seq，不落地任何报告数据；rpt_code = 年份后两位 + 5位补零的seq，校验台自己拼
+  rpc NextReportSeq(NextReportSeqRequest) returns (NextReportSeqResponse);// host/next_report_seq
+
   // 审核员
   rpc ApproveReports(ApproveReportsRequest) returns (ApproveReportsResponse);//host/approve_reports
 
@@ -795,6 +799,15 @@ message NextOrderSeqResponse {
   int32 seq = 3;// 本年度第几个委托单，原子递增得到，客户端拼接 o_code = year + 5位补零seq
 }
 
+message NextReportSeqRequest {
+}
+
+message NextReportSeqResponse {
+  BaseResponse rsp = 1;
+  int32 year = 2;
+  int32 seq = 3;// 本年度第几份报告，原子递增得到，校验台拼接 rpt_code = 年份后两位 + 5位补零seq，如 2600001
+}
+
 message ListOrderRequest {
   BaseListArg list_arg = 1;
   string doc_code =  2;// 委托单编号
@@ -931,4 +944,41 @@ message ListReportSummaryResponse {
   BaseResponse rsp = 1;
   repeated ReportSummaryPoint points = 2;
   int32 count = 3; // 总数
+}
+
+// 服务端设置：都是"server 那台机器上的"配置，只有超管能看能改
+message GetServerSettingRequest {
+}
+
+message GetServerSettingResponse {
+  BaseResponse rsp = 1;
+  string pdf_root = 2;      // 报告/委托单 pdf 和截图落盘的根目录(server 本机路径)
+  string default_pdf_root = 3; // 没配置过时的默认根目录，界面上给个参照
+  string soffice_path = 4;  // docx转pdf 用的 LibreOffice soffice.exe 完整路径(server 本机路径)
+  bool soffice_ok = 5;      // 上面这个路径在 server 本机是否真的存在
+}
+
+message SetServerSettingRequest {
+  string pdf_root = 1;      // 留空表示这一项不改
+  string soffice_path = 2;  // 留空表示这一项不改
+}
+
+message SetServerSettingResponse {
+  BaseResponse rsp = 1;
+  string pdf_root = 2;      // 保存成功后实际生效的路径
+  string soffice_path = 3;  // 同上
+}
+
+// 浏览 server 那台机器上的目录树，供管理员挑存放位置：path 为空时返回盘符列表
+message ListServerDirRequest {
+  string path = 1;
+  string file_ext = 2;      // 需要同时列出文件时传扩展名(如 ".exe")，留空只列目录
+}
+
+message ListServerDirResponse {
+  BaseResponse rsp = 1;
+  string path = 2;          // 当前目录(请求 path 为空时也是空，此时 dirs 里是盘符根)
+  string parent = 3;        // 上一级目录，已经在最顶层时为空
+  repeated string dirs = 4; // 子目录的完整路径
+  repeated string files = 5;// 匹配 file_ext 的文件完整路径，file_ext 为空时不返回
 }
