@@ -49,9 +49,9 @@ service WebBusiness {
   rpc DownloadOrderPdf(DownOrderPdfRequest) returns (DownOrderPdfResponse);//host/download_order_pdf
 
   // 报告(XT_安全阀校验报告)/记录(XT_校验记录)/校验数据(安全阀校验数据) 三个文件围绕同一份报告成组出现，
-  // 下载/上传统一走这一组接口，不拆开传：DsToApproval/DsApproved/DsFinished 三种状态打开 Detail_Report 都用 DownRptFiles 临时取一份预览；
-  // 审批只发生在 DsToApproval：客户端本地用人名章给下载下来的报告文件加签，只把报告，其他两个空 UploadRptFiles 回传，
-  // 服务器原地覆盖旧文件、把 approver/status(->DS_Approved) 落库
+  // 下载/上传统一走这一组接口，不拆开传：DsToReview/DsToApproval/DsFinished 三种状态打开 Detail_Report 都用 DownRptFiles 临时取一份预览；
+  // 审批只发生在 DsToReview：客户端本地用人名章给下载下来的报告文件加签，只把报告，其他两个空 UploadRptFiles 回传，
+  // 服务器原地覆盖旧文件、把 approver/status(->DS_To_Approval) 落库
   rpc DownRptFiles(DownRptFilesRequest) returns (DownRptFilesResponse);//host/download_rpt_files
   rpc UploadRptFiles(UploadRptFilesRequest) returns (UploadRptFilesResponse);//host/upload_rpt_files
 
@@ -353,13 +353,16 @@ message ListTerminalResponse {
   int32 count = 3;
 }
 //
+// 数值按流程顺序连续排。改过一次编号：DS_To_Seal 是新增的，
+// DS_Finished 4->5、DS_Invalid 5->6 跟着后移（改的时候库里业务数据已清空，没有存量行要迁）。
 enum DocStatus {
-  DS_To_Check = 0;     // 待校验
-  DS_Checking = 1;     // 校验中
-  DS_To_Approval = 2;  // 待审核
-  DS_Approved = 3;  // 已审核
-  DS_Finished = 4;      // 报告已出
-  DS_Invalid = 5;       // 作废
+  DS_To_Check    = 0;  // 待校验    委托单：建好了，等校验台扫码
+  DS_Checking    = 1;  // 校验中    委托单：已被扫码取单
+  DS_To_Review   = 2;  // 待审核    报告：等审核员签校验记录
+  DS_To_Approval = 3;  // 待审批    报告：等审批员签测试报告
+  DS_To_Seal     = 4;  // 待盖章    报告：等部门管理员盖公章
+  DS_Finished    = 5;  // 已完成    委托单：全部阀门盖完章；报告：盖完公章
+  DS_Invalid     = 6;  // 作废
 }
 //report
 message Report {
@@ -733,7 +736,7 @@ message ReportFileGroup {
   bytes result_content = 3; // 校验数据(安全阀校验数据)
 }
 
-// 下载：DsToApproval/DsApproved/DsFinished 打开 Detail_Report 预览都用这个，客户端存临时文件/内存，关窗口自己清
+// 下载：DsToReview/DsToApproval/DsFinished 打开 Detail_Report 预览都用这个，客户端存临时文件/内存，关窗口自己清
 message DownRptFilesRequest {
   int32 report_id = 1;
 }
@@ -742,7 +745,7 @@ message DownRptFilesResponse {
   ReportFileGroup files = 2;
 }
 
-// 上传：只在审批(DsToApproval->DsApproved)时用。report_content 是客户端本地加签后的报告文件，
+// 上传：只在审批(DsToReview->DsToApproval)时用。report_content 是客户端本地加签后的报告文件，
 // record_content/result_content 原样带上(这次没改)；服务器原地覆盖三个旧文件，并把 approver、status 落库
 message UploadRptFilesRequest {
   int32 report_id = 1;
@@ -937,7 +940,7 @@ message ReportSummaryPoint {
   string period = 1;      // granularity=G_DAY: "2026-07-29"；granularity=G_MONTH: "2026-07"
   int32 order_count = 2;  // 该周期内新建委托单数量
   int32 report_count = 3; // 该周期内新建报告数量
-  int32 pending_approve_count = 4; // 该周期内待审批报告数 (DS_To_Approval) (仅在查询当日时使用该字段)
+  int32 pending_approve_count = 4; // 该周期内待审核报告数 (DS_To_Review) (仅在查询当日时使用该字段)
 }
 
 message ListReportSummaryResponse {
