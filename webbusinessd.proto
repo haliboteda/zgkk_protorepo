@@ -978,17 +978,27 @@ message GetServerSettingResponse {
   string default_pdf_root = 3; // 没配置过时的默认根目录，界面上给个参照
   string soffice_path = 4;  // docx转pdf 用的 LibreOffice soffice.exe 完整路径(server 本机路径)
   bool soffice_ok = 5;      // 上面这个路径在 server 本机是否真的存在
+  bool official_sign_configured = 6; // 公章密码是否已配置(出于安全，不回传密码本身)
 }
 
 message SetServerSettingRequest {
   string pdf_root = 1;      // 留空表示这一项不改
   string soffice_path = 2;  // 留空表示这一项不改
+  string official_sign_pin = 3; // 公章 UKey 密码，留空表示这一项不改
 }
 
 message SetServerSettingResponse {
   BaseResponse rsp = 1;
   string pdf_root = 2;      // 保存成功后实际生效的路径
   string soffice_path = 3;  // 同上
+  bool official_sign_configured = 4; // 同上
+}
+
+// 系统设置页【测试公章】按钮：服务端当场探一次公章 UKey 通不通、密码对不对，不真的盖到任何文件上
+message TestOfficialSealRequest {
+}
+message TestOfficialSealResponse {
+  BaseResponse rsp = 1; // Code=0 且 rsp.msg 为空表示探测通过；探测失败时 rsp.msg 是具体原因
 }
 
 // 浏览 server 那台机器上的目录树，供管理员挑存放位置：path 为空时返回盘符列表
