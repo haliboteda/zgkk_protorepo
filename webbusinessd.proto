@@ -71,7 +71,10 @@ service WebBusiness {
   // 原子发号：只递增 annual_seq_counter.report_seq，不落地任何报告数据；rpt_code = 年份后两位 + 5位补零的seq，校验台自己拼
   rpc NextReportSeq(NextReportSeqRequest) returns (NextReportSeqResponse);// host/next_report_seq
 
-  // 审核员
+  // 审核员：签校验记录，DsToReview -> DsToApproval
+  rpc AuditReports(AuditReportsRequest) returns (AuditReportsResponse);//host/audit_reports
+
+  // 审批员：签测试报告，DsToApproval -> DsToSeal，服务端在同一个请求里接着盖公章成功则 -> DsFinished
   rpc ApproveReports(ApproveReportsRequest) returns (ApproveReportsResponse);//host/approve_reports
 
   // 自动审批
@@ -861,7 +864,21 @@ message DeleteOrderResponse {
   BaseResponse rsp = 1;
 }
 
-// 审批就是签章
+// 审核就是签章：客户端本机用审核员人名章给校验记录加签后原样传回来，服务端覆盖旧文件、
+// 把 checker/status(->DsToApproval) 落库
+message AuditReportsRequest {
+  repeated int32 report_id = 1;
+  bytes record_content = 2; // 校验记录(XT_校验记录 rpt.RS.FilePath)
+}
+
+message AuditReportsResponse {
+  BaseResponse rsp = 1;
+}
+
+// 审批就是签章：客户端本机用审批员人名章给测试报告加签后传回来，服务端覆盖旧文件、
+// 把 approver/status(->DsToSeal) 落库，同一个请求里接着尝试盖公章；成功则 status->DsFinished
+// 并把盖完章的内容通过 report_content 回传，客户端当场刷新预览；失败则 report_content 为空，
+// status 停在 DsToSeal，等审批员在【报告审批】里点【重试盖章】
 message ApproveReportsRequest {
   repeated int32 report_id = 1;
   bytes report_content = 2; // 报告(XT_安全阀校验报告 rpt.FilePath)
@@ -869,6 +886,7 @@ message ApproveReportsRequest {
 
 message ApproveReportsResponse {
   BaseResponse rsp = 1;
+  bytes report_content = 2; // 盖完公章的报告内容；没盖上时留空
 }
 
 message ListReportRequest {
