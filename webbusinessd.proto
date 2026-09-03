@@ -666,6 +666,7 @@ message OrderForm {
   int64 receiver_time = 15; // 接收时间
   //
   DocStatus status = 16; // 委托单状态
+  string v_kind = 17; // 安全阀类型，整单勾选项用 "/" 拼成一串，如 "弹簧式/静重式"
 }
 message OrderForm_item {
   int32 seqno = 1;
