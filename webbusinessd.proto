@@ -670,6 +670,8 @@ message OrderForm {
   //
   DocStatus status = 16; // 委托单状态
   string v_kind = 17; // 安全阀类型，整单勾选项用 "/" 拼成一串，如 "弹簧式/静重式"
+  int64 claim_time = 18;      // 被校验台扫码取走的时刻，0 = 还没被取过
+  string claim_terminal = 19; // 取走它的那台校验台的终端号
 }
 message OrderForm_item {
   int32 seqno = 1;
@@ -897,6 +899,7 @@ message ListReportRequest {
   int64 to_date = 5;
   repeated DocStatus o_sts = 6; // 状态
   repeated int32 order_ids = 7; // 按所属委托单过滤
+  string v_code = 8; // 阀门编号，模糊匹配。一支阀可以有多份报告，查出来按校验时间倒序
 }
 
 message ListReportResponse {
