@@ -982,12 +982,16 @@ message GetServerSettingResponse {
   string soffice_path = 4;  // docx转pdf 用的 LibreOffice soffice.exe 完整路径(server 本机路径)
   bool soffice_ok = 5;      // 上面这个路径在 server 本机是否真的存在
   bool official_sign_configured = 6; // 公章密码是否已配置(出于安全，不回传密码本身)
+  bool official_unsigned = 7;        // 公章当前是人工模式吗(true=人工，审批时跳过公章直接到已完成)
 }
 
 message SetServerSettingRequest {
   string pdf_root = 1;      // 留空表示这一项不改
   string soffice_path = 2;  // 留空表示这一项不改
   string official_sign_pin = 3; // 公章 UKey 密码，留空表示这一项不改
+  // 切公章模式："unsigned"=转人工(直接生效)，"signed"=切回电签(服务端先探一次公章，
+  // 探不通就保持原状并在 rsp.msg 里说明原因)，留空表示这一项不改
+  string official_mode = 4;
 }
 
 message SetServerSettingResponse {
@@ -995,6 +999,7 @@ message SetServerSettingResponse {
   string pdf_root = 2;      // 保存成功后实际生效的路径
   string soffice_path = 3;  // 同上
   bool official_sign_configured = 4; // 同上
+  bool official_unsigned = 5;        // 保存之后公章实际处于什么模式(切电签被服务端驳回时这里还是 true)
 }
 
 // 系统设置页【测试公章】按钮：服务端当场探一次公章 UKey 通不通、密码对不对，不真的盖到任何文件上
