@@ -1022,3 +1022,32 @@ message ListServerDirResponse {
   repeated string dirs = 4; // 子目录的完整路径
   repeated string files = 5;// 匹配 file_ext 的文件完整路径，file_ext 为空时不返回
 }
+
+// 签章证书有效期：服务端在内存里维护，委托单一份、报告一份，按「件」算不按人算
+// （一份 PDF 不管盖了几道章，verifyPDFSign 回的证书和有效期都只有一个）。
+// 客户端只读，更新由系统设置页那个按钮触发。
+message CertValidity {
+  string end_date = 1;    // 证书到期日 "yyyy-MM-dd"，空串表示还没有值
+  string source_doc = 2;  // 这个日期是从哪一份件上读出来的(委托单 o_code / 报告 rpt_code)，空串表示没找到可读的件
+  int64 checked_time = 3; // 最后一次成功读出来的时刻(unix 秒)，0 表示从来没读到过
+  string err = 4;         // 上一次尝试失败的原因(驱动没起/找不到件/件上没签章)，空串表示没有失败
+}
+
+message GetCertValidityRequest {
+}
+
+message GetCertValidityResponse {
+  BaseResponse rsp = 1;
+  CertValidity order = 2;  // 委托单那一份
+  CertValidity report = 3; // 报告那一份
+}
+
+// 重新扫一次：各往前翻最多 20 份，读到第一个带证书的就停
+message RefreshCertValidityRequest {
+}
+
+message RefreshCertValidityResponse {
+  BaseResponse rsp = 1;
+  CertValidity order = 2;
+  CertValidity report = 3;
+}
