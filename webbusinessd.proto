@@ -900,6 +900,7 @@ message ListReportRequest {
   repeated DocStatus o_sts = 6; // 状态
   repeated int32 order_ids = 7; // 按所属委托单过滤
   string v_code = 8; // 阀门编号，模糊匹配。一支阀可以有多份报告，查出来按校验时间倒序
+  string terminal_code = 9; // 按校验台过滤（Report.terminal.code 精确匹配）。校验台算「本机共检 / 今日已检」用它 + list_arg.count_only 只取总数
 }
 
 message ListReportResponse {
