@@ -688,6 +688,8 @@ message OrderForm_item {
   string PS = 12;           // 阀门的整定压力 即要求整定压力
   int32 vnum = 13;//数量
   int32 order_id = 14;// 所属委托单id；
+  string oem_name = 15;// 制造单位
+  string p_license = 16;// 制造许可证
 }
 //
 message ListValveRequest {
