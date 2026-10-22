@@ -127,6 +127,7 @@ message SysUser {
   //
   bytes seal_image = 12;// 签章图片(png)，admin这一行存的是公章图
   string sign_pin = 13;// 签章UKey的登录密码，admin这一行存的是公章UKey密码
+  repeated SysRole extra_roles = 14;// 主角色之外可兼的角色；登录后返回的 sys_role 是本次选的角色
 }
 message ListSysuserRequest {
   BaseListArg list_arg = 1;
@@ -171,6 +172,7 @@ message ListRoleResponse {
 message LoginRequest {
   string user_name = 1;
   string enc_password = 2;
+  SysRole role = 3;// 本次以哪个角色登录；RT_Normal(0) = 不指定，按主角色
 }
 
 message LoginResponse {
