@@ -1028,6 +1028,32 @@ message ListServerDirResponse {
   repeated string files = 5;// 匹配 file_ext 的文件完整路径，file_ext 为空时不返回
 }
 
+// 签章坐标：记录、报告上四个人名章的位置，存在服务端，审批员在客户端拖框调整。
+// 坐标同签章驱动：章心，左上角为原点，0~1 页面比例
+message SealPosition {
+  string name = 1; // record_tester / record_checker / report_tester / report_approver
+  int32 page = 2;  // 从 1 开始
+  double x = 3;
+  double y = 4;
+}
+
+// 所有登录用户可读；没配过时回默认值
+message GetSealPositionsRequest {
+}
+message GetSealPositionsResponse {
+  BaseResponse rsp = 1;
+  repeated SealPosition positions = 2;
+}
+
+// 只有审批员能存
+message SetSealPositionsRequest {
+  repeated SealPosition positions = 1;
+}
+message SetSealPositionsResponse {
+  BaseResponse rsp = 1;
+  repeated SealPosition positions = 2; // 保存后实际生效的值
+}
+
 // 签章证书有效期：服务端在内存里维护，委托单一份、报告一份，按「件」算不按人算
 // （一份 PDF 不管盖了几道章，verifyPDFSign 回的证书和有效期都只有一个）。
 // 客户端只读，更新由系统设置页那个按钮触发。
