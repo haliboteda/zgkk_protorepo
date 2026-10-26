@@ -1035,6 +1035,8 @@ message SealPosition {
   int32 page = 2;  // 从 1 开始
   double x = 3;
   double y = 4;
+  double width_mm = 5;  // preview box size only; the real seal size comes from the UKey seal image
+  double height_mm = 6;
 }
 
 // 所有登录用户可读；没配过时回默认值
