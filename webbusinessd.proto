@@ -674,6 +674,7 @@ message OrderForm {
   string v_kind = 17; // 安全阀类型，整单勾选项用 "/" 拼成一串，如 "弹簧式/静重式"
   int64 claim_time = 18;      // 被校验台扫码取走的时刻，0 = 还没被取过
   string claim_terminal = 19; // 取走它的那台校验台的终端号
+  string invalid_reason = 20; // 作废理由，可空
 }
 message OrderForm_item {
   int32 seqno = 1;
@@ -692,6 +693,7 @@ message OrderForm_item {
   int32 order_id = 14;// 所属委托单id；
   string oem_name = 15;// 制造单位
   string p_license = 16;// 制造许可证
+  string norminal_p = 17;// 公称压力
 }
 //
 message ListValveRequest {
@@ -864,6 +866,7 @@ message DeleteOrderRequest {
   BaseListArg list_arg = 1;
   string o_code =  2;// 委托单编号
   int32 o_id = 3;// 委托单id
+  string reason = 4;// 作废理由，可空
 }
 
 message DeleteOrderResponse {
