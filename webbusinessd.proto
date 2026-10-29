@@ -811,8 +811,8 @@ message NextOrderSeqRequest {
 
 message NextOrderSeqResponse {
   BaseResponse rsp = 1;
-  int32 year = 2;
-  int32 seq = 3;// 本年度第几个委托单，原子递增得到，客户端拼接 o_code = year + 5位补零seq
+  reserved 2, 3;
+  string code = 4;// 委托单编号，规则同报告编号：年份后两位 + 两位月份 + 本月4位流水；服务端按自己的日期拼好
 }
 
 message NextReportSeqRequest {
