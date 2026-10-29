@@ -820,8 +820,8 @@ message NextReportSeqRequest {
 
 message NextReportSeqResponse {
   BaseResponse rsp = 1;
-  int32 year = 2;
-  int32 seq = 3;// 本年度第几份报告，原子递增得到，校验台拼接 rpt_code = 年份后两位 + 5位补零seq，如 2600001
+  reserved 2, 3;
+  string code = 4;// 报告编号 = 年份后两位 + 两位月份 + 本月4位流水，如 26100001；服务端按自己的日期拼好
 }
 
 message ListOrderRequest {
