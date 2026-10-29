@@ -428,6 +428,7 @@ message Report {
   //
   // get_report_detail 把文件内容跟数据一起带回来，客户端不用再单独调下载接口取报告pdf
   bytes report_content = 65;  // file_path 对应文件的内容
+  string p_range = 66;        // 压力范围（铭牌整定压力范围），委托单明细 press_range 带出；公称压力在 v.norminal_p
 }
 
 message GetReportDetailRequest {
